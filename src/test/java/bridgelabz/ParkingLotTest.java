@@ -46,7 +46,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenParkingLotIsFull_shouldReturnFull()  {
+    public void whenParkingLotIsFull_shouldReturnFalse()  {
         ParkingSystem parkingSystem = new ParkingSystem();
         boolean park=true;
         for (int i=1;i<=100;i++) {
@@ -58,6 +58,5 @@ public class ParkingLotTest {
                 e.printStackTrace();
             }
         }
-
     }
 }

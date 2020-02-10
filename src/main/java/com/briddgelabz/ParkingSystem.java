@@ -21,13 +21,10 @@ public class ParkingSystem implements parkingLotStatus{
     }
 
     public boolean unPark(String userName) throws ParkingLotException {
-        Integer key = 0;
-        for (Map.Entry<Integer, Car> entry : noOfParkingCar.entrySet()) {
-            if (userName.equalsIgnoreCase(entry.getValue().getUserName())) {
-                key = entry.getKey();
-                noOfParkingCar.remove(key);
-                return true;
-            }
+        Integer key = isPark(userName);
+        if (key!=0) {
+            noOfParkingCar.remove(key);
+            return true;
         }
         throw new ParkingLotException("NO CAR DATA FOUND", ParkingLotException.ExceptionType.NULL_POINTER_EXCEPTION);
     }
@@ -39,6 +36,18 @@ public class ParkingSystem implements parkingLotStatus{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Integer isPark(String userName) {
+        Integer key = 0;
+        for (Map.Entry<Integer, Car> entry : noOfParkingCar.entrySet()) {
+            if (userName.equalsIgnoreCase(entry.getValue().getUserName())) {
+                key = entry.getKey();
+                return key;
+            }
+        }
+        return 0;
     }
 }
 
