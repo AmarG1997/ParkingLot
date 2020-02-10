@@ -49,10 +49,9 @@ public class ParkingLotTest {
     public void whenParkingLotIsFull_shouldReturnFalse()  {
         ParkingSystem parkingSystem = new ParkingSystem();
         boolean park=true;
-        for (int i=1;i<=100;i++) {
+        for (int i=1;i<=101;i++) {
             try {
                 park = parkingSystem.park("ABC", "MH-15-FE5310", "White");
-                park=parkingSystem.park("ABC","XYZ","RED");
             } catch (ParkingLotException e) {
                 Assert.assertEquals("PARKING_LOT_IS_FULL",e.getMessage());
                 e.printStackTrace();
@@ -61,17 +60,28 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenParkingLotIsFull_shouldAirportSecurityRedirect()  {
+    public void whenParkingLotIsFull_shouldAirportSecurityRedirectIsTrue()  {
         ParkingSystem parkingSystem = new ParkingSystem();
         boolean park=true;
-        for (int i=1;i<=100;i++) {
+        for (int i=1;i<=101;i++) {
             try {
                 park = parkingSystem.park("ABC", "MH-15-FE5310", "White");
-                park=parkingSystem.park("ABC","XYZ","RED");
             } catch (ParkingLotException e) {
                 Assert.assertEquals("PARKING_LOT_IS_FULL",e.getMessage());
                 e.printStackTrace();
             }
         }
+    }
+
+    @Test
+    public void whenParkingLotIsFull_thenUnparkAnyCar_shouldAirportSecurityRedirectIsFalse() throws ParkingLotException {
+        ParkingSystem parkingSystem = new ParkingSystem();
+        boolean park=true;
+        for (int i=1;i<=99;i++) {
+                park = parkingSystem.park("ABC", "MH-15-FE5310", "White");
+        }
+        parkingSystem.park("XYZ", "MH-15-FE5310", "White");
+        boolean park1 = parkingSystem.unPark("XYZ");
+        Assert.assertEquals(true,park1);
     }
 }

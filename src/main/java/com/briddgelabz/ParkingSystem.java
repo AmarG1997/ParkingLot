@@ -34,6 +34,7 @@ public class ParkingSystem implements parkingLotStatus{
     @Override
     public boolean isEmpty() {
         if (noOfParkingCar.size()<parkingLotSize) {
+            airportSecurity.isRedirect=false;
             return true;
         }
         airportSecurity.isRedirect =true;
