@@ -2,14 +2,14 @@ package com.briddgelabz;
 
 import java.util.*;
 
-public class ParkingSystem {
+public class ParkingSystem implements parkingLotStatus{
 
     Map<Integer,Car> noOfParkingCar =new HashMap<Integer, Car>();
 
     int parkingLotSize=100;
 
     public boolean park(String userName,String carNumber,String carColor) throws ParkingLotException {
-        if (noOfParkingCar.size()<parkingLotSize) {
+        if (isEmpty()==true) {
             noOfParkingCar.put(noOfParkingCar.size() + 1, new Car(userName, carNumber, carColor));
             return true;
         }
@@ -30,6 +30,15 @@ public class ParkingSystem {
             }
         }
         throw new ParkingLotException("NO CAR DATA FOUND", ParkingLotException.ExceptionType.NULL_POINTER_EXCEPTION);
+    }
+
+
+    @Override
+    public boolean isEmpty() {
+        if (noOfParkingCar.size()<parkingLotSize) {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -49,9 +49,10 @@ public class ParkingLotTest {
     public void whenParkingLotIsFull_shouldReturnFull()  {
         ParkingSystem parkingSystem = new ParkingSystem();
         boolean park=true;
-        for (int i=1;i<=101;i++) {
+        for (int i=1;i<=100;i++) {
             try {
-                park = parkingSystem.park("Amar", "MH-15-FE5310", "White");
+                park = parkingSystem.park("ABC", "MH-15-FE5310", "White");
+                park=parkingSystem.park("ABC","XYZ","RED");
             } catch (ParkingLotException e) {
                 Assert.assertEquals("PARKING_LOT_IS_FULL",e.getMessage());
                 e.printStackTrace();
