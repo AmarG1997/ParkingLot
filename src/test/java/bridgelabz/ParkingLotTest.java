@@ -59,4 +59,19 @@ public class ParkingLotTest {
             }
         }
     }
+
+    @Test
+    public void whenParkingLotIsFull_shouldAirportSecurityRedirect()  {
+        ParkingSystem parkingSystem = new ParkingSystem();
+        boolean park=true;
+        for (int i=1;i<=100;i++) {
+            try {
+                park = parkingSystem.park("ABC", "MH-15-FE5310", "White");
+                park=parkingSystem.park("ABC","XYZ","RED");
+            } catch (ParkingLotException e) {
+                Assert.assertEquals("PARKING_LOT_IS_FULL",e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }

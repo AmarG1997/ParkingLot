@@ -5,7 +5,7 @@ import java.util.*;
 public class ParkingSystem implements parkingLotStatus{
 
     Map<Integer,Car> noOfParkingCar =new HashMap<Integer, Car>();
-
+    AirportSecurity airportSecurity =new AirportSecurity();
     int parkingLotSize=100;
 
     public boolean park(String userName,String carNumber,String carColor) throws ParkingLotException {
@@ -19,6 +19,7 @@ public class ParkingSystem implements parkingLotStatus{
     public void getDetails() {
         System.out.println(noOfParkingCar);
     }
+
 
     public boolean unPark(String userName) throws ParkingLotException {
         Integer key = isPark(userName);
@@ -35,6 +36,7 @@ public class ParkingSystem implements parkingLotStatus{
         if (noOfParkingCar.size()<parkingLotSize) {
             return true;
         }
+        airportSecurity.isRedirect =true;
         return false;
     }
 
