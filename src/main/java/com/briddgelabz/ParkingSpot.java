@@ -19,6 +19,18 @@ public class ParkingSpot {
     public void getDetails() {
         System.out.println(parkingLotData);
     }
+
+    public boolean unPark(String userName) throws ParkingLotException {
+        Integer key = 0;
+        for (Map.Entry<Integer, Car> entry : parkingLotData.entrySet()) {
+            if (userName.equalsIgnoreCase(entry.getValue().getUserName())) {
+                key = entry.getKey();
+                parkingLotData.remove(key);
+                return true;
+            }
+        }
+        throw new ParkingLotException("NO CAR DATA FOUND", ParkingLotException.ExceptionType.NULL_POINTER_EXCEPTION);
+    }
 }
 
 
