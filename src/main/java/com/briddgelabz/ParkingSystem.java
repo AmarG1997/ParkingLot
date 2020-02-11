@@ -2,16 +2,16 @@ package com.briddgelabz;
 
 import java.util.*;
 
-public class ParkingSystem implements parkingLotStatus{
+public class ParkingSystem implements parkingLotStatus {
 
-    Map<Integer,Car> noOfParkingCar =new HashMap<Integer, Car>();
-    AirportSecurity airportSecurity =new AirportSecurity();
+    Map<Integer, Car> noOfParkingCar = new HashMap<Integer, Car>();
+    AirportSecurity airportSecurity = new AirportSecurity();
 
-    int parkingLotSize=100;
+    int parkingLotSize = 100;
 
-    public boolean park(String userName,String carNumber,String carColor) throws ParkingLotException {
-        if (isEmpty()==true) {
-            noOfParkingCar.put(noOfParkingCar.size()+1, new Car(userName, carNumber, carColor));
+    public boolean park(String userName, String carNumber, String carColor) throws ParkingLotException {
+        if (isEmpty() == true) {
+            noOfParkingCar.put(noOfParkingCar.size() + 1, new Car(userName, carNumber, carColor));
             return true;
         }
         throw new ParkingLotException("PARKING_LOT_IS_FULL", ParkingLotException.ExceptionType.OUT_OF_MEMORY);
@@ -23,7 +23,7 @@ public class ParkingSystem implements parkingLotStatus{
 
     public boolean unPark(String userName) throws ParkingLotException {
         Integer key = getSlotNo(userName);
-        if (key!=0) {
+        if (key != 0) {
             noOfParkingCar.remove(key);
             return true;
         }
@@ -32,11 +32,11 @@ public class ParkingSystem implements parkingLotStatus{
 
     @Override
     public boolean isEmpty() {
-        if (noOfParkingCar.size()<parkingLotSize) {
-            airportSecurity.isRedirect=false;
+        if (noOfParkingCar.size() < parkingLotSize) {
+            airportSecurity.isRedirect = false;
             return true;
         }
-        airportSecurity.isRedirect =true;
+        airportSecurity.isRedirect = true;
         return false;
     }
 

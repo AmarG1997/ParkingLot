@@ -1,6 +1,6 @@
 package com.briddgelabz;
 
-public class AirportSecurity  {
+public class AirportSecurity {
 
-    public static boolean isRedirect =false;
+    public static boolean isRedirect = false;
 }

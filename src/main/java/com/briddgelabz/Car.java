@@ -4,12 +4,12 @@ import java.time.LocalTime;
 
 public class Car {
 
-    private String userName=null;
-    private String numberPlate=null;
+    private String userName = null;
+    private String numberPlate = null;
     private String color = null;
 
-    long millis=System.currentTimeMillis();
-    java.sql.Date date=new java.sql.Date(millis);
+    long millis = System.currentTimeMillis();
+    java.sql.Date date = new java.sql.Date(millis);
     LocalTime time = LocalTime.now();
 
     public Car(String userName, String numberPlate, String color) {
@@ -27,11 +27,11 @@ public class Car {
     public String toString() {
         return
                 "userName='" + userName + '\'' +
-                ", numberPlate='" + numberPlate + '\'' +
-                ", color='" + color + '\'' +
-                ", millis=" + millis +
-                ", date=" + date +
-                ", time=" + time +
-                '}';
+                        ", numberPlate='" + numberPlate + '\'' +
+                        ", color='" + color + '\'' +
+                        ", millis=" + millis +
+                        ", date=" + date +
+                        ", time=" + time +
+                        '}';
     }
 }
