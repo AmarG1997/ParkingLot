@@ -6,10 +6,10 @@ public class ParkingSystem implements parkingLotStatus{
 
     Map<Integer,Car> noOfParkingCar =new HashMap<Integer, Car>();
     AirportSecurity airportSecurity =new AirportSecurity();
+
     int parkingLotSize=100;
 
     public boolean park(String userName,String carNumber,String carColor) throws ParkingLotException {
-        int i=0;
         if (isEmpty()==true) {
             noOfParkingCar.put(noOfParkingCar.size()+1, new Car(userName, carNumber, carColor));
             return true;
@@ -21,16 +21,14 @@ public class ParkingSystem implements parkingLotStatus{
         System.out.println(noOfParkingCar);
     }
 
-
     public boolean unPark(String userName) throws ParkingLotException {
-        Integer key = isPark(userName);
+        Integer key = getSlotNo(userName);
         if (key!=0) {
             noOfParkingCar.remove(key);
             return true;
         }
         throw new ParkingLotException("NO CAR DATA FOUND", ParkingLotException.ExceptionType.NULL_POINTER_EXCEPTION);
     }
-
 
     @Override
     public boolean isEmpty() {
@@ -43,7 +41,7 @@ public class ParkingSystem implements parkingLotStatus{
     }
 
     @Override
-    public Integer isPark(String userName) {
+    public Integer getSlotNo(String userName) {
         Integer key = 0;
         for (Map.Entry<Integer, Car> entry : noOfParkingCar.entrySet()) {
             if (userName.equalsIgnoreCase(entry.getValue().getUserName())) {
@@ -53,8 +51,6 @@ public class ParkingSystem implements parkingLotStatus{
         }
         return 0;
     }
-
-
 }
 
 
