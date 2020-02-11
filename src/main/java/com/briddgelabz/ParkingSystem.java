@@ -9,8 +9,9 @@ public class ParkingSystem implements parkingLotStatus{
     int parkingLotSize=100;
 
     public boolean park(String userName,String carNumber,String carColor) throws ParkingLotException {
+        int i=0;
         if (isEmpty()==true) {
-            noOfParkingCar.put(noOfParkingCar.size() + 1, new Car(userName, carNumber, carColor));
+            noOfParkingCar.put(noOfParkingCar.size()+1, new Car(userName, carNumber, carColor));
             return true;
         }
         throw new ParkingLotException("PARKING_LOT_IS_FULL", ParkingLotException.ExceptionType.OUT_OF_MEMORY);
@@ -52,6 +53,8 @@ public class ParkingSystem implements parkingLotStatus{
         }
         return 0;
     }
+
+
 }
 
 
