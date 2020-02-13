@@ -4,6 +4,7 @@ import com.briddgelabz.AirportSecurity;
 import com.briddgelabz.ParkingLotException;
 import com.briddgelabz.ParkingSystem;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ParkingLotTest {
@@ -11,30 +12,31 @@ public class ParkingLotTest {
     ParkingSystem parkingSystem = new ParkingSystem();
     Object vehicle = new Object();
 
+    @Before
+    public void setUp() throws Exception {
+        parkingSystem.park(vehicle);
+    }
+
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
-        parkingSystem.park(vehicle);
         boolean isPark = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(isPark);
     }
 
     @Test
     public void givenAVehicle_whenUnParked_shouldReturnTrue() throws ParkingLotException {
-        parkingSystem.park(vehicle);
         boolean isUnParked = parkingSystem.unPark(vehicle);
         Assert.assertTrue(isUnParked);
     }
 
     @Test
     public void givenAVehicle_whenUnParkedAnotherVariable_shouldReturnFalse() throws ParkingLotException {
-        parkingSystem.park(new Object());
-        boolean isUnParked = parkingSystem.unPark(vehicle);
+        boolean isUnParked = parkingSystem.unPark(new Object());
         Assert.assertFalse(isUnParked);
     }
 
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldReturnFull() throws ParkingLotException {
-        parkingSystem.park(vehicle);
         parkingSystem.park(new Object());
         try {
             parkingSystem.park(new Object());
@@ -45,17 +47,13 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenParkingLotIsFull_thenUnparkAnyCar_shouldAirportSecurityRedirectIsFalse() throws ParkingLotException {
-        ParkingSystem parkingSystem = new ParkingSystem();
-        boolean park = true;
-        for (int i = 1; i <= 99; i++) {
-            parkingSystem.park(vehicle);
+    public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity()  {
+        try {
+            parkingSystem.park(new Object());
+            parkingSystem.park(new Object());
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
         }
-        parkingSystem.park(vehicle);
-
-        boolean park1 = parkingSystem.unPark(vehicle);
-        parkingSystem.park(vehicle);
-
-        Assert.assertEquals(false, new AirportSecurity().isRedirect);
+        Assert.assertTrue(new AirportSecurity().parkingLot);
     }
 }

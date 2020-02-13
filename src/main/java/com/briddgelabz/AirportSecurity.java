@@ -1,6 +1,11 @@
 package com.briddgelabz;
 
-public class AirportSecurity {
+public class AirportSecurity implements ParkingLotStatus {
 
-    public static boolean isRedirect = false;
+    public static boolean parkingLot;
+
+    @Override
+    public void isFull() {
+        this.parkingLot = true;
+    }
 }

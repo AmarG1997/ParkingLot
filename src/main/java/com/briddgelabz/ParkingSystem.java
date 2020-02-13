@@ -10,7 +10,9 @@ public class ParkingSystem {
     ArrayList list = new ArrayList();
 
     public void park(Object vehicle) throws ParkingLotException {
+        ParkingLotOwner owner = new ParkingLotOwner();
         if (list.size()==parkingLotSize){
+            owner.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
         this.vehicle = vehicle;
