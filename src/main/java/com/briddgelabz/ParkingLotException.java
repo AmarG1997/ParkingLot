@@ -2,11 +2,10 @@ package com.briddgelabz;
 
 public class ParkingLotException extends Exception {
 
-    public enum ExceptionType {NULL_POINTER_EXCEPTION, OUT_OF_MEMORY}
+    public enum ExceptionType {}
 
-    public ParkingLotException(String message, ExceptionType type) {
+    public ParkingLotException(String message) {
         super(message);
-        this.type = type;
     }
 
     public ExceptionType type;

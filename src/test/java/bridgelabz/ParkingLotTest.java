@@ -12,44 +12,36 @@ public class ParkingLotTest {
     Object vehicle = new Object();
 
     @Test
-    public void givenAVehicle_whenParked_shouldReturnTrue() {
+    public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
         parkingSystem.park(vehicle);
-        boolean isPark = parkingSystem.isVehicle(vehicle);
+        boolean isPark = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(isPark);
     }
 
     @Test
-    public void givenAVehicle_whenUnParked_shouldReturnTrue() {
+    public void givenAVehicle_whenUnParked_shouldReturnTrue() throws ParkingLotException {
         parkingSystem.park(vehicle);
         boolean isUnParked = parkingSystem.unPark(vehicle);
         Assert.assertTrue(isUnParked);
     }
 
     @Test
-    public void givenAVehicle_whenUnParkedAnotherVariable_shouldReturnFalse() {
+    public void givenAVehicle_whenUnParkedAnotherVariable_shouldReturnFalse() throws ParkingLotException {
         parkingSystem.park(new Object());
         boolean isUnParked = parkingSystem.unPark(vehicle);
         Assert.assertFalse(isUnParked);
     }
 
     @Test
-    public void whenParkingLotIsFull_shouldReturnFalse() {
-        ParkingSystem parkingSystem = new ParkingSystem();
-        boolean park = true;
-        for (int i = 1; i <= 101; i++) {
-
-             parkingSystem.park(vehicle);
+    public void givenAVehicle_whenParkingLotIsFull_shouldReturnFull() throws ParkingLotException {
+        parkingSystem.park(vehicle);
+        parkingSystem.park(new Object());
+        try {
+            parkingSystem.park(new Object());
+        }catch (ParkingLotException e){
+            Assert.assertEquals("Parking Lot Is Full",e.getMessage());
         }
-    }
 
-    @Test
-    public void whenParkingLotIsFull_shouldAirportSecurityRedirectIsTrue() {
-        ParkingSystem parkingSystem = new ParkingSystem();
-        boolean park = true;
-        for (int i = 1; i <= 101; i++) {
-
-          parkingSystem.park(vehicle);
-        }
     }
 
     @Test
