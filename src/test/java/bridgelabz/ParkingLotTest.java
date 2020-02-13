@@ -40,20 +40,30 @@ public class ParkingLotTest {
         parkingSystem.park(new Object());
         try {
             parkingSystem.park(new Object());
-        }catch (ParkingLotException e){
-            Assert.assertEquals("Parking Lot Is Full",e.getMessage());
+        } catch (ParkingLotException e) {
+            Assert.assertEquals("Parking Lot Is Full", e.getMessage());
         }
 
     }
 
     @Test
-    public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity()  {
+    public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity() {
         try {
             parkingSystem.park(new Object());
             parkingSystem.park(new Object());
         } catch (ParkingLotException e) {
-            e.printStackTrace();
         }
         Assert.assertTrue(new AirportSecurity().parkingLot);
+    }
+
+    @Test
+    public void givenAVehicle_whenParkingLotIsFullAndRemoveOneVehicle_shouldInformAirportSecurity() throws ParkingLotException {
+        parkingSystem.park(new Object());
+        try {
+            parkingSystem.park(new Object());
+        } catch (ParkingLotException e) {
+        }
+        parkingSystem.unPark(vehicle);
+        Assert.assertFalse(new AirportSecurity().parkingLot);
     }
 }
