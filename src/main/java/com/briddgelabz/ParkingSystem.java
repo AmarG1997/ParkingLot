@@ -1,13 +1,7 @@
 package com.briddgelabz;
 
-import java.util.*;
-
 public class ParkingSystem {
 
-    Map<Integer, Object> noOfParkingCar = new HashMap<Integer, Object>();
-    AirportSecurity airportSecurity = new AirportSecurity();
-
-    int parkingLotSize = 100;
     private Object vehicle = null;
 
     public void park(Object vehicle)  {
@@ -21,25 +15,15 @@ public class ParkingSystem {
         return false;
     }
 
-    public void getDetails() {
-        System.out.println(noOfParkingCar);
-    }
-
     public boolean unPark(Object vehicle)  {
-            noOfParkingCar.remove(vehicle);
-            return true;
-    }
-
-
-    public boolean isEmpty() {
-        if (noOfParkingCar.size() < parkingLotSize) {
-            airportSecurity.isRedirect = false;
+        if (vehicle == null ){
+            return false;
+        }
+        if (vehicle.equals(this.vehicle)){
             return true;
         }
-        airportSecurity.isRedirect = true;
         return false;
     }
-
 }
 
 

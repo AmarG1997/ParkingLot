@@ -4,7 +4,6 @@ import com.briddgelabz.AirportSecurity;
 import com.briddgelabz.ParkingLotException;
 import com.briddgelabz.ParkingSystem;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ParkingLotTest {
@@ -13,23 +12,24 @@ public class ParkingLotTest {
     Object vehicle = new Object();
 
     @Test
-    public void whenDriverWantsToPark_shouldBeAbleToPark() throws ParkingLotException {
+    public void givenAVehicle_whenParked_shouldReturnTrue() {
         parkingSystem.park(vehicle);
-        boolean isPark = parkingSystem.isVehicle(this.vehicle);
+        boolean isPark = parkingSystem.isVehicle(vehicle);
         Assert.assertTrue(isPark);
     }
 
     @Test
-    public void whenDriverWantsToUnPark_shouldBeAbleToUnPark() throws ParkingLotException {
-        boolean result = parkingSystem.unPark(vehicle);
-        parkingSystem.getDetails();
-        Assert.assertEquals(true, result);
+    public void givenAVehicle_whenUnParked_shouldReturnTrue() {
+        parkingSystem.park(vehicle);
+        boolean isUnParked = parkingSystem.unPark(vehicle);
+        Assert.assertTrue(isUnParked);
     }
 
     @Test
-    public void whenDriverSayWrongName_shouldThrowException() throws ParkingLotException {
-            parkingSystem.unPark("WrongName");
-
+    public void givenAVehicle_whenUnParkedAnotherVariable_shouldReturnFalse() {
+        parkingSystem.park(new Object());
+        boolean isUnParked = parkingSystem.unPark(vehicle);
+        Assert.assertFalse(isUnParked);
     }
 
     @Test
@@ -60,10 +60,10 @@ public class ParkingLotTest {
             parkingSystem.park(vehicle);
         }
         parkingSystem.park(vehicle);
-        parkingSystem.getDetails();
+
         boolean park1 = parkingSystem.unPark(vehicle);
         parkingSystem.park(vehicle);
-        parkingSystem.getDetails();
+
         Assert.assertEquals(false, new AirportSecurity().isRedirect);
     }
 }
