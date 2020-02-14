@@ -66,4 +66,12 @@ public class ParkingLotTest {
         parkingSystem.unPark(vehicle);
         Assert.assertFalse(new AirportSecurity().parkingLot);
     }
+
+    @Test
+    public void whenEnterDetails_shouldReturnParkingLotNumber() throws ParkingLotException {
+        Object vehicle1 = new Object();
+        parkingSystem.park(vehicle1);
+        int slotNo = parkingSystem.getSlotNo(vehicle);
+        Assert.assertEquals(0,slotNo);
+    }
 }

@@ -9,7 +9,7 @@ public class ParkingSystem {
     public static int key = 0;
 
     private Object vehicle = null;
-    Map<Integer,Object> mapData = new HashMap<>();
+    Map<Integer, Object> mapData = new HashMap<>();
     ParkingLotOwner owner = new ParkingLotOwner();
 
     public void park(Object vehicle) throws ParkingLotException {
@@ -19,7 +19,7 @@ public class ParkingSystem {
         }
         this.vehicle = vehicle;
         if (mapData.size() < parkingLotSize) {
-            mapData.put(key,vehicle);
+            mapData.put(key, vehicle);
             key++;
         }
     }
@@ -33,6 +33,15 @@ public class ParkingSystem {
         return false;
     }
 
+    public int getSlotNo(Object vehicle) {
+        for (Map.Entry<Integer, Object> entry : mapData.entrySet()) {
+            if (vehicle.equals(entry.getValue())) {
+                key = entry.getKey();
+            }
+        }
+        return key;
+    }
+
     public boolean unPark(Object vehicle) throws ParkingLotException {
         if (vehicle == null) {
             throw new ParkingLotException("Enter Vehicle Details");
@@ -41,13 +50,8 @@ public class ParkingSystem {
         boolean vehicleParked = isVehicleParked(vehicle);
 
         if (vehicleParked == true) {
-            for (Map.Entry<Integer,Object> entry : mapData.entrySet()) {
-                if (vehicle.equals(entry.getValue())){
-                    key=entry.getKey();
-                    mapData.remove(key);
-                    break;
-                }
-            }
+            key = getSlotNo(vehicle);
+            mapData.remove(key);
             if (mapData.size() < parkingLotSize) {
                 owner.isEmpty();
             }
@@ -57,3 +61,4 @@ public class ParkingSystem {
     }
 
 }
+
