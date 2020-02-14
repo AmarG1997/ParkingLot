@@ -1,5 +1,6 @@
 package com.briddgelabz;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,18 +9,17 @@ public class ParkingSystem {
     int parkingLotSize = 2;
     public static int key = 0;
 
-    private Object vehicle = null;
-    Map<Integer, Object> mapData = new HashMap<>();
+
+    Map<Integer, Vehicle> mapData = new HashMap<>();
     ParkingLotOwner owner = new ParkingLotOwner();
 
-    public void park(Object vehicle) throws ParkingLotException {
+    public void park(Object vehicleDetails) throws ParkingLotException {
         if (mapData.size() == parkingLotSize) {
             owner.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
-        this.vehicle = vehicle;
         if (mapData.size() < parkingLotSize) {
-            mapData.put(key, vehicle);
+            mapData.put(key, (Vehicle) vehicleDetails);
             key++;
         }
     }
@@ -34,7 +34,7 @@ public class ParkingSystem {
     }
 
     public int getSlotNo(Object vehicle) {
-        for (Map.Entry<Integer, Object> entry : mapData.entrySet()) {
+        for (Map.Entry<Integer, Vehicle> entry : mapData.entrySet()) {
             if (vehicle.equals(entry.getValue())) {
                 key = entry.getKey();
             }
@@ -48,9 +48,10 @@ public class ParkingSystem {
         }
 
         boolean vehicleParked = isVehicleParked(vehicle);
-
         if (vehicleParked == true) {
             key = getSlotNo(vehicle);
+            LocalTime parkTime = mapData.get(key).getTime();
+            owner.parkTimeData(parkTime);
             mapData.remove(key);
             if (mapData.size() < parkingLotSize) {
                 owner.isEmpty();
@@ -59,6 +60,10 @@ public class ParkingSystem {
         }
         return false;
     }
+    public void getDetails(){
+        System.out.println(mapData);
+    }
+
 
 }
 

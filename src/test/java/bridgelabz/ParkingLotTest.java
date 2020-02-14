@@ -1,8 +1,6 @@
 package bridgelabz;
 
-import com.briddgelabz.AirportSecurity;
-import com.briddgelabz.ParkingLotException;
-import com.briddgelabz.ParkingSystem;
+import com.briddgelabz.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +8,8 @@ import org.junit.Test;
 public class ParkingLotTest {
 
     ParkingSystem parkingSystem = new ParkingSystem();
-    Object vehicle = new Object();
+    ParkingLotOwner owner = new ParkingLotOwner();
+    Vehicle vehicle = new Vehicle();
 
     @Before
     public void setUp() throws Exception {
@@ -20,6 +19,7 @@ public class ParkingLotTest {
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
+        parkingSystem.getDetails();
         Assert.assertTrue(vehicleParked);
     }
 
@@ -37,9 +37,9 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldReturnFull() throws ParkingLotException {
-        parkingSystem.park(new Object());
+        parkingSystem.park(new Vehicle());
         try {
-            parkingSystem.park(new Object());
+            parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
             Assert.assertEquals("Parking Lot Is Full", e.getMessage());
         }
@@ -49,8 +49,8 @@ public class ParkingLotTest {
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity() {
         try {
-            parkingSystem.park(new Object());
-            parkingSystem.park(new Object());
+            parkingSystem.park(new Vehicle());
+            parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
         }
         Assert.assertTrue(new AirportSecurity().parkingLot);
@@ -58,9 +58,9 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkingLotIsFullAndRemoveOneVehicle_shouldInformAirportSecurity() throws ParkingLotException {
-        parkingSystem.park(new Object());
+        parkingSystem.park(new Vehicle());
         try {
-            parkingSystem.park(new Object());
+            parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
         }
         parkingSystem.unPark(vehicle);
@@ -69,9 +69,17 @@ public class ParkingLotTest {
 
     @Test
     public void whenEnterDetails_shouldReturnParkingLotNumber() throws ParkingLotException {
-        Object vehicle1 = new Object();
+        Vehicle vehicle1 = new Vehicle();
         parkingSystem.park(vehicle1);
         int slotNo = parkingSystem.getSlotNo(vehicle);
         Assert.assertEquals(0,slotNo);
+    }
+
+    @Test
+    public void givenVehicle_whenUnparked_shouldReturnCharges() throws ParkingLotException {
+        parkingSystem.park(new Vehicle());
+        parkingSystem.unPark(vehicle);
+        Object details = owner.getDetails();
+        Assert.assertEquals(vehicle.getTime(),details);
     }
 }
