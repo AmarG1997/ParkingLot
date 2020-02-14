@@ -19,8 +19,8 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
-        boolean isPark = parkingSystem.isVehicleParked(vehicle);
-        Assert.assertTrue(isPark);
+        boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
+        Assert.assertTrue(vehicleParked);
     }
 
     @Test

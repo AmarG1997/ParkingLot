@@ -1,30 +1,33 @@
 package com.briddgelabz;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingSystem {
 
     int parkingLotSize = 2;
+    public static int key = 0;
 
     private Object vehicle = null;
-    ArrayList list = new ArrayList();
+    Map<Integer,Object> mapData = new HashMap<>();
     ParkingLotOwner owner = new ParkingLotOwner();
 
     public void park(Object vehicle) throws ParkingLotException {
-        if (list.size() == parkingLotSize) {
+        if (mapData.size() == parkingLotSize) {
             owner.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
         this.vehicle = vehicle;
-        if (list.size() < parkingLotSize) {
-            list.add(vehicle);
-            System.out.println(list.size());
+        if (mapData.size() < parkingLotSize) {
+            mapData.put(key,vehicle);
+            key++;
         }
     }
 
+
     public boolean isVehicleParked(Object vehicle) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) == vehicle)
+        for (int i = 0; i < mapData.size(); i++) {
+            if (mapData.get(i) == vehicle)
                 return true;
         }
         return false;
@@ -34,13 +37,19 @@ public class ParkingSystem {
         if (vehicle == null) {
             throw new ParkingLotException("Enter Vehicle Details");
         }
+
         boolean vehicleParked = isVehicleParked(vehicle);
+
         if (vehicleParked == true) {
-            System.out.println("Vehicle Removed");
-            list.remove(vehicle);
-            if (list.size() < parkingLotSize) {
+            for (Map.Entry<Integer,Object> entry : mapData.entrySet()) {
+                if (vehicle.equals(entry.getValue())){
+                    key=entry.getKey();
+                    mapData.remove(key);
+                    break;
+                }
+            }
+            if (mapData.size() < parkingLotSize) {
                 owner.isEmpty();
-                System.out.println("isEmpty");
             }
             return true;
         }
@@ -48,6 +57,3 @@ public class ParkingSystem {
     }
 
 }
-
-
-
