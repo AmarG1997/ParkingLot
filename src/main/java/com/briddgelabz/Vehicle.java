@@ -4,6 +4,9 @@ import java.time.LocalTime;
 
 public class Vehicle {
 
+    public Vehicle() {
+    }
+
     LocalTime time = LocalTime.now();
 
     public LocalTime getTime() {
