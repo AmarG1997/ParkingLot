@@ -21,13 +21,11 @@ public class ParkingSystem {
     int key = 0;
     int changeSlot = 1;
     int count = 1;
-
-
+    int i = 1;
 
     private void assignSlot(Object vehicle) {
         int noOfLots = parkingLotSize / noOfParkingLot;
         int lots = noOfParkingLot + 1;
-        int i = 1;
         boolean res = mapData.containsKey(i);
         if (res == false) {
             if (count == lots) {
@@ -41,7 +39,7 @@ public class ParkingSystem {
         }
     }
 
-    public void park(Object vehicleDetails) throws ParkingLotException {
+    public void park(Object vehicleDetails ) throws ParkingLotException {
         if (mapData.size() == parkingLotSize) {
             owner.isFull();
             airportSecurity.isFull();
@@ -53,7 +51,7 @@ public class ParkingSystem {
     }
 
     public boolean isVehicleParked(Object vehicle) {
-        for (int i = 1; i <= mapData.size(); i++) {
+        for (int i = 1; i <= parkingLotSize; i++) {
             if (mapData.get(i) == vehicle)
                 return true;
         }
