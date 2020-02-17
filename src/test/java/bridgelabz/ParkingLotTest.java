@@ -36,19 +36,20 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldReturnFull() throws ParkingLotException {
-        parkingSystem.park(new Vehicle());
+        for (int i = 0; i < parkingSystem.parkingLotSize-1; i++) {
+            parkingSystem.park(new Vehicle());
+        }
         try {
             parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
             Assert.assertEquals("Parking Lot Is Full", e.getMessage());
         }
-
     }
 
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity() {
         try {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < parkingSystem.parkingLotSize; i++)
                 parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
         }
@@ -56,7 +57,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenAVehicle_whenParkingLotIsFullAndRemoveOneVehicle_shouldInformAirportSecurity() throws ParkingLotException {
+    public void givenAVehicle_whenParkingLotIsFullAndToggleBack_shouldInformAirportSecurity() throws ParkingLotException {
         parkingSystem.park(new Vehicle());
         try {
             parkingSystem.park(new Vehicle());

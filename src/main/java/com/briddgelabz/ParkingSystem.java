@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class ParkingSystem {
 
-    int parkingLotSize = 100;
-    public static int key = 0;
+    public int parkingLotSize = 100;
+    static int key = 0;
+
+    AirportSecurity airportSecurity = new AirportSecurity();
 
     Map<Integer, Vehicle> mapData = new HashMap<>();
     ParkingLotOwner owner = new ParkingLotOwner();
@@ -17,7 +19,7 @@ public class ParkingSystem {
     int i = 1;
     int count = 1;
 
-    public void assignSlot(Object vehicle) {
+    private void assignSlot(Object vehicle) {
         boolean res = mapData.containsKey(i);
         if (res == false) {
             if (count == 5) {
@@ -33,7 +35,7 @@ public class ParkingSystem {
 
     public void park(Object vehicleDetails) throws ParkingLotException {
         if (mapData.size() == parkingLotSize) {
-            owner.isFull();
+            airportSecurity.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
         if (mapData.size() < parkingLotSize) {
@@ -70,7 +72,7 @@ public class ParkingSystem {
             owner.parkTimeData(parkTime);
             mapData.remove(key);
             if (mapData.size() < parkingLotSize) {
-                owner.isEmpty();
+                airportSecurity.isEmpty();
             }
             return true;
         }
