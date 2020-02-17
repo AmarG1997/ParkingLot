@@ -6,9 +6,6 @@ public class Vehicle {
 
     LocalTime time = LocalTime.now();
 
-    public Vehicle() {
-    }
-
     public LocalTime getTime() {
         return time;
     }

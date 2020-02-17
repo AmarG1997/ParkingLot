@@ -6,12 +6,30 @@ import java.util.Map;
 
 public class ParkingSystem {
 
-    int parkingLotSize = 2;
+    int parkingLotSize = 100;
     public static int key = 0;
-
 
     Map<Integer, Vehicle> mapData = new HashMap<>();
     ParkingLotOwner owner = new ParkingLotOwner();
+    int noOfParkingLot = 4;
+    int lots = parkingLotSize / noOfParkingLot;
+    int changeSlot = 1;
+    int i = 1;
+    int count = 1;
+
+    public void assignSlot(Object vehicle) {
+        boolean res = mapData.containsKey(i);
+        if (res == false) {
+            if (count == 5) {
+                changeSlot = changeSlot + 1;
+                i = changeSlot;
+                count = 1;
+            }
+            mapData.put(i, (Vehicle) vehicle);
+            i = i + lots;
+            count++;
+        }
+    }
 
     public void park(Object vehicleDetails) throws ParkingLotException {
         if (mapData.size() == parkingLotSize) {
@@ -19,14 +37,12 @@ public class ParkingSystem {
             throw new ParkingLotException("Parking Lot Is Full");
         }
         if (mapData.size() < parkingLotSize) {
-            mapData.put(key, (Vehicle) vehicleDetails);
-            key++;
+            assignSlot(vehicleDetails);
         }
     }
 
-
     public boolean isVehicleParked(Object vehicle) {
-        for (int i = 0; i < mapData.size(); i++) {
+        for (int i = 1; i <= mapData.size(); i++) {
             if (mapData.get(i) == vehicle)
                 return true;
         }
@@ -60,10 +76,9 @@ public class ParkingSystem {
         }
         return false;
     }
-    public void getDetails(){
+
+    public void getDetails() {
         System.out.println(mapData);
     }
-
-
 }
 

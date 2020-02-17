@@ -19,7 +19,6 @@ public class ParkingLotTest {
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
-        parkingSystem.getDetails();
         Assert.assertTrue(vehicleParked);
     }
 
@@ -49,8 +48,8 @@ public class ParkingLotTest {
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity() {
         try {
-            parkingSystem.park(new Vehicle());
-            parkingSystem.park(new Vehicle());
+            for (int i = 0; i < 100; i++)
+                parkingSystem.park(new Vehicle());
         } catch (ParkingLotException e) {
         }
         Assert.assertTrue(new AirportSecurity().parkingLot);
@@ -72,14 +71,32 @@ public class ParkingLotTest {
         Vehicle vehicle1 = new Vehicle();
         parkingSystem.park(vehicle1);
         int slotNo = parkingSystem.getSlotNo(vehicle);
-        Assert.assertEquals(0,slotNo);
+        Assert.assertEquals(1, slotNo);
     }
 
     @Test
     public void givenVehicle_whenUnparked_shouldReturnCharges() throws ParkingLotException {
         parkingSystem.park(new Vehicle());
+        parkingSystem.getDetails();
         parkingSystem.unPark(vehicle);
         Object details = owner.getDetails();
-        Assert.assertEquals(vehicle.getTime(),details);
+        Assert.assertEquals(vehicle.getTime(), details);
+    }
+
+    @Test
+    public void givenAVehicle_whenParked_shouldParkedEvenly() throws ParkingLotException {
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(new Vehicle());
+        parkingSystem.park(vehicle);
+        int slotNo = parkingSystem.getSlotNo(vehicle);
+        Assert.assertEquals(78, slotNo);
     }
 }
