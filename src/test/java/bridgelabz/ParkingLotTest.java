@@ -7,17 +7,19 @@ import org.junit.Test;
 
 public class ParkingLotTest {
 
-    ParkingSystem parkingSystem = new ParkingSystem();
+    ParkingSystem parkingSystem ;
     ParkingLotOwner owner = new ParkingLotOwner();
-    Vehicle vehicle = new Vehicle();
+    Vehicle vehicle;
 
     @Before
     public void setUp() throws Exception {
+        vehicle= new Vehicle();
+        parkingSystem = new ParkingSystem(100,4);
         parkingSystem.park(vehicle);
     }
 
     @Test
-    public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
+    public void givenAVehicle_whenParked_shouldReturnTrue()  {
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(vehicleParked);
     }
@@ -96,8 +98,7 @@ public class ParkingLotTest {
         parkingSystem.park(new Vehicle());
         parkingSystem.park(new Vehicle());
         parkingSystem.park(new Vehicle());
-        parkingSystem.park(vehicle);
         int slotNo = parkingSystem.getSlotNo(vehicle);
-        Assert.assertEquals(78, slotNo);
+        Assert.assertEquals(1, slotNo);
     }
 }

@@ -5,36 +5,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingSystem {
-
-    public int parkingLotSize = 100;
-    static int key = 0;
-
     AirportSecurity airportSecurity = new AirportSecurity();
+    ParkingLotOwner owner = new ParkingLotOwner();
 
     Map<Integer, Vehicle> mapData = new HashMap<>();
-    ParkingLotOwner owner = new ParkingLotOwner();
-    int noOfParkingLot = 4;
-    int lots = parkingLotSize / noOfParkingLot;
+
+    public int parkingLotSize;
+    int noOfParkingLot;
+
+    public ParkingSystem(int parkingLotSize, int noOfParkingLot) {
+        this.parkingLotSize = parkingLotSize;
+        this.noOfParkingLot = noOfParkingLot;
+    }
+
+    int key = 0;
     int changeSlot = 1;
-    int i = 1;
     int count = 1;
 
+
+
     private void assignSlot(Object vehicle) {
+        int noOfLots = parkingLotSize / noOfParkingLot;
+        int lots = noOfParkingLot + 1;
+        int i = 1;
         boolean res = mapData.containsKey(i);
         if (res == false) {
-            if (count == 5) {
+            if (count == lots) {
                 changeSlot = changeSlot + 1;
                 i = changeSlot;
                 count = 1;
             }
             mapData.put(i, (Vehicle) vehicle);
-            i = i + lots;
+            i = i + noOfLots;
             count++;
         }
     }
 
     public void park(Object vehicleDetails) throws ParkingLotException {
         if (mapData.size() == parkingLotSize) {
+            owner.isFull();
             airportSecurity.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
@@ -73,6 +82,7 @@ public class ParkingSystem {
             mapData.remove(key);
             if (mapData.size() < parkingLotSize) {
                 airportSecurity.isEmpty();
+                owner.isEmpty();
             }
             return true;
         }
