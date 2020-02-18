@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 public class ParkingLotTest {
 
     ParkingSystem parkingSystem ;
@@ -81,7 +83,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenVehicle_whenUnparked_shouldReturnCharges() throws ParkingLotException {
+    public void givenVehicle_whenUnparked_shouldReturnParkedTime() throws ParkingLotException {
         parkingSystem.park(new Vehicle(false,VehicleType.SMALL));
         parkingSystem.unPark(vehicle);
         Object details = owner.getDetails();
@@ -116,5 +118,15 @@ public class ParkingLotTest {
         parkingSystem.park(vehicle1);
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle1);
         Assert.assertTrue(vehicleParked);
+    }
+
+    @Test
+    public void givenAVehicle_whenParkedWhiteCars_shouldInformPolice() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle(false,VehicleType.SMALL,"white");
+        Vehicle vehicle1 = new Vehicle(false,VehicleType.SMALL,"white");
+        parkingSystem.park(vehicle);
+        parkingSystem.park(vehicle1);
+        Map<Integer,Vehicle> vehicleList = parkingSystem.getDetails("white");
+        Assert.assertEquals("white",vehicleList.get(51).getColor());
     }
 }

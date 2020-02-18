@@ -1,7 +1,6 @@
 package com.bridgelabz.contoller;
 
 import com.bridgelabz.model.Vehicle;
-import com.bridgelabz.model.VehicleType;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
@@ -9,6 +8,7 @@ import com.bridgelabz.service.ParkingLotOwner;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ParkingSystem {
 
@@ -34,9 +34,8 @@ public class ParkingSystem {
     }
 
     private void assignSlot(Vehicle vehicle) {
-        boolean res = vehicleData.containsKey(i);
-        if (vehicle.handicap == false  ) {
-            carParking(vehicle,vehicle.size);
+        if (vehicle.handicap == false) {
+            carParking(vehicle);
         }
         if (vehicle.handicap == true) {
             handicapCarParking(vehicle);
@@ -59,7 +58,7 @@ public class ParkingSystem {
         }
     }
 
-    private void carParking(Object vehicle , VehicleType size) {
+    private void carParking(Object vehicle) {
         int lots = this.NOOFPARKINGLOT + 1;
         if (count == lots) {
             changeSlot = changeSlot + 1;
@@ -69,7 +68,6 @@ public class ParkingSystem {
         vehicleData.put(i, (Vehicle) vehicle);
         i = i + noOfLots;
         count++;
-
     }
 
     public void park(Vehicle vehicleDetails) throws ParkingLotException {
@@ -119,8 +117,12 @@ public class ParkingSystem {
         return false;
     }
 
-    public void getDetails() {
-        System.out.println(vehicleData);
+    public Map<Integer, Vehicle> getDetails(String color) {
+        Map<Integer,Vehicle> a =vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue()
+                .getColor() == color)
+//                .map(value -> value.getValue())
+                .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+        return a;
     }
 }
 
