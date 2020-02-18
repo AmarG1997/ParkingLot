@@ -1,6 +1,10 @@
-package bridgelabz;
+package com.bridgelabz;
 
-import com.briddgelabz.*;
+import com.bridgelabz.contoller.ParkingSystem;
+import com.bridgelabz.service.AirportSecurity;
+import com.bridgelabz.service.ParkingLotException;
+import com.bridgelabz.service.ParkingLotOwner;
+import com.bridgelabz.model.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

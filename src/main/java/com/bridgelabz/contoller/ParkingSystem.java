@@ -1,4 +1,9 @@
-package com.briddgelabz;
+package com.bridgelabz.contoller;
+
+import com.bridgelabz.model.Vehicle;
+import com.bridgelabz.service.AirportSecurity;
+import com.bridgelabz.service.ParkingLotException;
+import com.bridgelabz.service.ParkingLotOwner;
 
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -13,7 +18,7 @@ public class ParkingSystem {
 
     public int parkingLotSize;
     public int noOfParkingLot;
-    int noOfLots =0;
+    int noOfLots = 0;
 
     public ParkingSystem(int parkingLotSize, int noOfParkingLot) {
         this.parkingLotSize = parkingLotSize;

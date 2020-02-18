@@ -1,4 +1,4 @@
-package com.briddgelabz;
+package com.bridgelabz.service;
 
 public interface ParkingLotStatus {
 
