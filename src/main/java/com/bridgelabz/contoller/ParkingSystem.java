@@ -1,6 +1,7 @@
 package com.bridgelabz.contoller;
 
 import com.bridgelabz.model.Vehicle;
+import com.bridgelabz.model.VehicleType;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
@@ -16,42 +17,39 @@ public class ParkingSystem {
 
     Map<Integer, Vehicle> vehicleData = new HashMap<>();
 
-    public int parkingLotSize;
-    public int noOfParkingLot;
+    public int PARKINGLOTSIZE;
+    public int NOOFPARKINGLOT;
     int noOfLots = 0;
-
-    public ParkingSystem(int parkingLotSize, int noOfParkingLot) {
-        this.parkingLotSize = parkingLotSize;
-        this.noOfParkingLot = noOfParkingLot;
-        noOfLots = this.parkingLotSize / this.noOfParkingLot;
-    }
-
     int handicap = 1;
     int key = 0;
     int changeSlot = 1;
     int count = 1;
     int i = 1;
-    Vehicle vehicle1 = null;
+    Vehicle parkedVehicle = null;
 
+    public ParkingSystem(int PARKINGLOTSIZE, int NOOFPARKINGLOT) {
+        this.PARKINGLOTSIZE = PARKINGLOTSIZE;
+        this.NOOFPARKINGLOT = NOOFPARKINGLOT;
+        noOfLots = this.PARKINGLOTSIZE / this.NOOFPARKINGLOT;
+    }
 
-    private void assignSlot(Object vehicle, boolean driver) {
+    private void assignSlot(Vehicle vehicle) {
         boolean res = vehicleData.containsKey(i);
-        if (driver == false && res == false) {
-            carParking(vehicle);
+        if (vehicle.handicap == false  ) {
+            carParking(vehicle,vehicle.size);
         }
-
-        if (driver == true) {
+        if (vehicle.handicap == true) {
             handicapCarParking(vehicle);
         }
     }
 
     private void handicapCarParking(Object vehicle) {
-        for (int slot = handicap; slot < parkingLotSize; slot++) {
+        for (int slot = handicap; slot < PARKINGLOTSIZE; slot++) {
             if (vehicleData.containsKey(slot)) {
-                vehicle1 = vehicleData.get(slot);
+                parkedVehicle = vehicleData.get(slot);
                 vehicleData.put(slot, (Vehicle) vehicle);
                 handicap = handicap + 1;
-                assignSlot(vehicle1, false);
+                assignSlot(parkedVehicle);
                 break;
             } else {
                 vehicleData.put(slot, (Vehicle) vehicle);
@@ -59,11 +57,10 @@ public class ParkingSystem {
                 break;
             }
         }
-
     }
 
-    private void carParking(Object vehicle) {
-        int lots = this.noOfParkingLot + 1;
+    private void carParking(Object vehicle , VehicleType size) {
+        int lots = this.NOOFPARKINGLOT + 1;
         if (count == lots) {
             changeSlot = changeSlot + 1;
             i = changeSlot;
@@ -72,21 +69,21 @@ public class ParkingSystem {
         vehicleData.put(i, (Vehicle) vehicle);
         i = i + noOfLots;
         count++;
+
     }
 
-    public void park(Object vehicleDetails, boolean driver) throws ParkingLotException {
-        if (vehicleData.size() == parkingLotSize) {
+    public void park(Vehicle vehicleDetails) throws ParkingLotException {
+        if (vehicleData.size() == PARKINGLOTSIZE) {
             owner.isFull();
             airportSecurity.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
-        assignSlot(vehicleDetails, driver);
+        assignSlot(vehicleDetails);
     }
 
-    public boolean isVehicleParked(Object vehicle) {
-        for (int i = 1; i <= parkingLotSize; i++) {
+    public boolean isVehicleParked(Vehicle vehicle) {
+        for (int i = 1; i <= PARKINGLOTSIZE; i++) {
             if (vehicleData.get(i) == vehicle) {
-                System.out.println(i);
                 return true;
             }
         }
@@ -102,7 +99,7 @@ public class ParkingSystem {
         return key;
     }
 
-    public boolean unPark(Object vehicle) throws ParkingLotException {
+    public boolean unPark(Vehicle vehicle) throws ParkingLotException {
         if (vehicle == null) {
             throw new ParkingLotException("Enter Vehicle Details");
         }
@@ -113,7 +110,7 @@ public class ParkingSystem {
             LocalTime parkTime = vehicleData.get(key).getTime();
             owner.parkTimeData(parkTime);
             vehicleData.remove(key);
-            if (vehicleData.size() < parkingLotSize) {
+            if (vehicleData.size() < PARKINGLOTSIZE) {
                 airportSecurity.isEmpty();
                 owner.isEmpty();
             }
