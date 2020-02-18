@@ -15,7 +15,7 @@ public class ParkingLotTest {
     public void setUp() throws Exception {
         vehicle= new Vehicle();
         parkingSystem = new ParkingSystem(100,4);
-       // parkingSystem.park(vehicle,false);
+        parkingSystem.park(vehicle,false);
     }
 
     @Test
@@ -108,6 +108,9 @@ public class ParkingLotTest {
         parkingSystem.park(new Vehicle(),true);
         parkingSystem.getDetails();
         parkingSystem.park(new Vehicle(),true);
+        parkingSystem.park(new Vehicle(),true);
+        parkingSystem.park(new Vehicle(),true);
+        parkingSystem.park(new Vehicle(),false);
         parkingSystem.getDetails();
         Assert.assertEquals(51,parkingSystem.getSlotNo(vehicle));
     }

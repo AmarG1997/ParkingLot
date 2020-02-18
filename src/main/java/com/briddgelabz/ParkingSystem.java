@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingSystem {
+
     AirportSecurity airportSecurity = new AirportSecurity();
     ParkingLotOwner owner = new ParkingLotOwner();
 
@@ -12,52 +13,61 @@ public class ParkingSystem {
 
     public int parkingLotSize;
     public int noOfParkingLot;
-    int handicap = 1;
+    int noOfLots =0;
 
     public ParkingSystem(int parkingLotSize, int noOfParkingLot) {
         this.parkingLotSize = parkingLotSize;
         this.noOfParkingLot = noOfParkingLot;
+        noOfLots = this.parkingLotSize / this.noOfParkingLot;
     }
 
+    int handicap = 1;
     int key = 0;
     int changeSlot = 1;
     int count = 1;
     int i = 1;
+    Vehicle vehicle1 = null;
+
 
     private void assignSlot(Object vehicle, boolean driver) {
-        Vehicle vehicle1 = null;
-        int noOfLots = parkingLotSize / noOfParkingLot;
-        int lots = noOfParkingLot + 1;
         boolean res = vehicleData.containsKey(i);
         if (driver == false && res == false) {
-            if (count == lots) {
-                changeSlot = changeSlot + 1;
-                i = changeSlot;
-                count = 1;
-            }
-            vehicleData.put(i, (Vehicle) vehicle);
-            i = i + noOfLots;
-            count++;
+            carParking(vehicle);
         }
 
         if (driver == true) {
-            for (int slot = handicap; slot < parkingLotSize; slot++) {
-                if (vehicleData.containsKey(slot)) {
-                    vehicle1 = vehicleData.get(slot);
-                    vehicleData.put(slot, (Vehicle) vehicle);
-                    handicap = handicap + 1;
-                    assignSlot(vehicle1, false);
-                    break;
-                }
-                else
-                {
-                    vehicleData.put(slot, (Vehicle) vehicle);
-                    break;
-                }
-            }
+            handicapCarParking(vehicle);
         }
     }
 
+    private void handicapCarParking(Object vehicle) {
+        for (int slot = handicap; slot < parkingLotSize; slot++) {
+            if (vehicleData.containsKey(slot)) {
+                vehicle1 = vehicleData.get(slot);
+                vehicleData.put(slot, (Vehicle) vehicle);
+                handicap = handicap + 1;
+                assignSlot(vehicle1, false);
+                break;
+            } else {
+                vehicleData.put(slot, (Vehicle) vehicle);
+                handicap = handicap + 1;
+                break;
+            }
+        }
+
+    }
+
+    private void carParking(Object vehicle) {
+        int lots = this.noOfParkingLot + 1;
+        if (count == lots) {
+            changeSlot = changeSlot + 1;
+            i = changeSlot;
+            count = 1;
+        }
+        vehicleData.put(i, (Vehicle) vehicle);
+        i = i + noOfLots;
+        count++;
+    }
 
     public void park(Object vehicleDetails, boolean driver) throws ParkingLotException {
         if (vehicleData.size() == parkingLotSize) {
@@ -66,11 +76,6 @@ public class ParkingSystem {
             throw new ParkingLotException("Parking Lot Is Full");
         }
         assignSlot(vehicleDetails, driver);
-//        if (driver == false) {
-//            if (vehicleData.size() < parkingLotSize) {
-//                assignSlot(vehicleDetails, driver);
-//            }
-//        }
     }
 
     public boolean isVehicleParked(Object vehicle) {
