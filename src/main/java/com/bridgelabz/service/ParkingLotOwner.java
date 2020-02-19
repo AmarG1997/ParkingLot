@@ -1,17 +1,17 @@
 package com.bridgelabz.service;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class ParkingLotOwner implements ParkingLotStatus {
 
     public static boolean parkingLot;
-    public static LocalTime parkedTimeData;
+    public static LocalDateTime parkedTimeData;
 
-    public void parkTimeData(LocalTime data){
+    public void parkTimeData(LocalDateTime data){
         this.parkedTimeData=data;
     }
 
-    public LocalTime getDetails(){
+    public LocalDateTime getDetails(){
         return parkedTimeData;
     }
 

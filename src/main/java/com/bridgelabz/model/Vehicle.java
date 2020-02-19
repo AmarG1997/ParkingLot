@@ -1,6 +1,6 @@
 package com.bridgelabz.model;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Vehicle {
 
@@ -10,7 +10,7 @@ public class Vehicle {
     private String color;
     public VehicleType size;
     public boolean handicap;
-    LocalTime time = LocalTime.now();
+    LocalDateTime now = LocalDateTime.now();
 
     public Vehicle(boolean handicap, VehicleType size) {
         this.handicap = handicap;
@@ -32,8 +32,8 @@ public class Vehicle {
         this.model=model;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalDateTime getTimeAndDate() {
+        return now;
     }
 
     public String getColor() {
@@ -47,13 +47,13 @@ public class Vehicle {
     @Override
     public String toString() {
         return "Vehicle{" +
-                "model=" + model +
+                "model='" + model + '\'' +
                 ", carNumber='" + carNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
                 ", size=" + size +
                 ", handicap=" + handicap +
-                ", time=" + time +
+                ", now=" + now +
                 '}';
     }
 }

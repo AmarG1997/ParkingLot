@@ -87,7 +87,7 @@ public class ParkingLotTest {
         parkingSystem.park(new Vehicle(false,VehicleType.SMALL));
         parkingSystem.unPark(vehicle);
         Object details = owner.getDetails();
-        Assert.assertEquals(vehicle.getTime(), details);
+        Assert.assertEquals(vehicle.getTimeAndDate(), details);
     }
 
     @Test

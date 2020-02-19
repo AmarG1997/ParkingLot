@@ -5,7 +5,7 @@ import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -105,7 +105,7 @@ public class ParkingSystem {
         boolean vehicleParked = isVehicleParked(vehicle);
         if (vehicleParked == true) {
             key = getSlotNo(vehicle);
-            LocalTime parkTime = vehicleData.get(key).getTime();
+            LocalDateTime parkTime = vehicleData.get(key).getTimeAndDate();
             owner.parkTimeData(parkTime);
             vehicleData.remove(key);
             if (vehicleData.size() < PARKINGLOTSIZE) {
