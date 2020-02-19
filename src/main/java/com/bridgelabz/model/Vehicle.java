@@ -26,13 +26,13 @@ public class Vehicle {
         this.color = color;
     }
 
-    public Vehicle(DriverType type, VehicleType size, String name, String carNumber ,String color , String model) {
+    public Vehicle(DriverType type, VehicleType size, String name, String carNumber, String color, String model) {
         this.type = type;
         this.size = size;
-        this.name=name;
-        this.carNumber=carNumber;
+        this.name = name;
+        this.carNumber = carNumber;
         this.color = color;
-        this.model=model;
+        this.model = model;
     }
 
     public LocalDateTime getTimeAndDate() {
@@ -45,6 +45,10 @@ public class Vehicle {
 
     public String getModel() {
         return model;
+    }
+
+    public DriverType getType() {
+        return type;
     }
 
     @Override

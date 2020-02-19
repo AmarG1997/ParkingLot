@@ -7,11 +7,11 @@ public class ParkingLotOwner implements ParkingLotStatus {
     public static boolean parkingLot;
     public static LocalDateTime parkedTimeData;
 
-    public void parkTimeData(LocalDateTime data){
-        this.parkedTimeData=data;
+    public void parkTimeData(LocalDateTime data) {
+        this.parkedTimeData = data;
     }
 
-    public LocalDateTime getDetails(){
+    public LocalDateTime getDetails() {
         return parkedTimeData;
     }
 

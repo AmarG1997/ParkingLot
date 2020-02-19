@@ -34,22 +34,13 @@ public class ParkingSystem {
         noOfLots = this.PARKINGLOTSIZE / this.NOOFPARKINGLOT;
     }
 
-    private void assignSlot(Vehicle vehicle) {
-        if (vehicle.type.equals(DriverType.NORMAL)) {
-            carParking(vehicle);
-        }
-        if (vehicle.type.equals(DriverType.HANDICAP)) {
-            handicapCarParking(vehicle);
-        }
-    }
-
-    private void handicapCarParking(Object vehicle) {
+    public void handicapCarParking(Object vehicle) {
         for (int slot = handicap; slot < PARKINGLOTSIZE; slot++) {
             if (vehicleData.containsKey(slot)) {
                 parkedVehicle = vehicleData.get(slot);
                 vehicleData.put(slot, (Vehicle) vehicle);
                 handicap = handicap + 1;
-                assignSlot(parkedVehicle);
+                parkedVehicle.getType().carParking(this, parkedVehicle);
                 break;
             } else {
                 vehicleData.put(slot, (Vehicle) vehicle);
@@ -59,7 +50,7 @@ public class ParkingSystem {
         }
     }
 
-    private void carParking(Object vehicle) {
+    public void carParking(Object vehicle) {
         int lots = this.NOOFPARKINGLOT + 1;
         if (count == lots) {
             changeSlot = changeSlot + 1;
@@ -77,7 +68,8 @@ public class ParkingSystem {
             airportSecurity.isFull();
             throw new ParkingLotException("Parking Lot Is Full");
         }
-        assignSlot(vehicleDetails);
+        vehicleDetails.getType().carParking(this, vehicleDetails);
+        //assignSlot(vehicleDetails);
     }
 
     public boolean isVehicleParked(Vehicle vehicle) {
