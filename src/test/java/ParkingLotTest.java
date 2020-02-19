@@ -61,7 +61,7 @@ public class ParkingLotTest {
                 parkingSystem.park(new Vehicle(DriverType.NORMAL, VehicleType.SMALL));
         } catch (ParkingLotException e) {
         }
-        Assert.assertTrue(new AirportSecurity().parkingLot);
+        Assert.assertTrue( AirportSecurity.status);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ParkingLotTest {
         } catch (ParkingLotException e) {
         }
         parkingSystem.unPark(vehicle);
-        Assert.assertFalse(new AirportSecurity().parkingLot);
+        Assert.assertFalse(AirportSecurity.status);
     }
 
     @Test

@@ -2,10 +2,11 @@ package com.bridgelabz.service;
 
 import java.time.LocalDateTime;
 
-public class ParkingLotOwner implements ParkingLotStatus {
+public class ParkingLotOwner implements ParkingLotObserver  {
 
-    public static boolean parkingLot;
+
     public static LocalDateTime parkedTimeData;
+    public static boolean status;
 
     public void parkTimeData(LocalDateTime data) {
         this.parkedTimeData = data;
@@ -17,12 +18,7 @@ public class ParkingLotOwner implements ParkingLotStatus {
 
 
     @Override
-    public void isFull() {
-        this.parkingLot = true;
-    }
-
-    @Override
-    public void isEmpty() {
-        this.parkingLot = false;
+    public void updateParkingStatus(boolean status) {
+        this.status=status;
     }
 }

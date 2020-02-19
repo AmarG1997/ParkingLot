@@ -1,16 +1,12 @@
 package com.bridgelabz.service;
 
-public class AirportSecurity implements ParkingLotStatus {
+public class AirportSecurity implements ParkingLotObserver {
 
-    public static boolean parkingLot;
 
-    @Override
-    public void isFull() {
-        this.parkingLot = true;
-    }
+    public static boolean status;
 
     @Override
-    public void isEmpty() {
-        this.parkingLot = false;
+    public void updateParkingStatus(boolean status) {
+        this.status=status;
     }
 }

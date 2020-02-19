@@ -5,6 +5,7 @@ import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
+import com.bridgelabz.service.ParkingStatusObserver;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class ParkingSystem {
 
     AirportSecurity airportSecurity = new AirportSecurity();
     ParkingLotOwner owner = new ParkingLotOwner();
+    ParkingStatusObserver parkingStatusObserver = new ParkingStatusObserver();
 
     Map<Integer, Vehicle> vehicleData = new HashMap<>();
 
@@ -32,6 +34,8 @@ public class ParkingSystem {
         this.PARKINGLOTSIZE = PARKINGLOTSIZE;
         this.NOOFPARKINGLOT = NOOFPARKINGLOT;
         noOfLots = this.PARKINGLOTSIZE / this.NOOFPARKINGLOT;
+        parkingStatusObserver.attach(airportSecurity);
+        parkingStatusObserver.attach(owner);
     }
 
     public void handicapCarParking(Object vehicle) {
@@ -64,8 +68,7 @@ public class ParkingSystem {
 
     public void park(Vehicle vehicleDetails) throws ParkingLotException {
         if (vehicleData.size() == PARKINGLOTSIZE) {
-            owner.isFull();
-            airportSecurity.isFull();
+            parkingStatusObserver.notifyUpdate(true);
             throw new ParkingLotException("Parking Lot Is Full");
         }
         vehicleDetails.getType().carParking(this, vehicleDetails);
@@ -102,8 +105,7 @@ public class ParkingSystem {
             owner.parkTimeData(parkTime);
             vehicleData.remove(key);
             if (vehicleData.size() < PARKINGLOTSIZE) {
-                airportSecurity.isEmpty();
-                owner.isEmpty();
+                parkingStatusObserver.notifyUpdate(false);
             }
             return true;
         }
@@ -111,18 +113,18 @@ public class ParkingSystem {
     }
 
     public Map<Integer, Vehicle> getDetails(String... finDBY) {
-        Map<Integer, Vehicle> a = new HashMap<>();
-        a = vehicleData.entrySet().stream()
+        Map<Integer, Vehicle> searchedVehicle = new HashMap<>();
+        searchedVehicle = vehicleData.entrySet().stream()
                 .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().contains(finDBY[0]))
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
         if (finDBY.length > 1) {
-            a = a.entrySet().stream()
+            searchedVehicle = searchedVehicle.entrySet().stream()
                     .filter(integerVehicleEntry -> integerVehicleEntry.getValue()
                             .getModel() == finDBY[1])
                     .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
-            return a;
+            return searchedVehicle;
         }
-        return a;
+        return searchedVehicle;
     }
 }
 
