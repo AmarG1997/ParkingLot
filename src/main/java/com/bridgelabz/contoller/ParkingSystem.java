@@ -117,11 +117,19 @@ public class ParkingSystem {
         return false;
     }
 
-    public Map<Integer, Vehicle> getDetails(String color) {
-        Map<Integer,Vehicle> a =vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue()
-                .getColor() == color)
-//                .map(value -> value.getValue())
+    public Map<Integer, Vehicle> getDetails(String... finDBY) {
+        Map<Integer, Vehicle> a = new HashMap<>();
+        a = vehicleData.entrySet().stream()
+                .filter(integerVehicleEntry -> integerVehicleEntry.getValue()
+                        .getColor() == finDBY[0])
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+        if (finDBY.length > 1) {
+            a = a.entrySet().stream()
+                    .filter(integerVehicleEntry -> integerVehicleEntry.getValue()
+                            .getModel() == finDBY[1])
+                    .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+            return a;
+        }
         return a;
     }
 }

@@ -121,12 +121,26 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenAVehicle_whenParkedWhiteCars_shouldInformPolice() throws ParkingLotException {
+    public void givenAVehicle_whenParkedVehicles_shouldReturnWhiteCars() throws ParkingLotException {
         Vehicle vehicle = new Vehicle(false,VehicleType.SMALL,"white");
         Vehicle vehicle1 = new Vehicle(false,VehicleType.SMALL,"white");
         parkingSystem.park(vehicle);
         parkingSystem.park(vehicle1);
         Map<Integer,Vehicle> vehicleList = parkingSystem.getDetails("white");
         Assert.assertEquals("white",vehicleList.get(51).getColor());
+    }
+
+    @Test
+    public void givenAVehicle_whenParkedVehicle_shouldReturnBlueCarWithToyotoModel() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle(false,VehicleType.SMALL,"ABC","mh-15-fe53410","blue","TOYOTO");
+        Vehicle vehicle1 = new Vehicle(false,VehicleType.SMALL,"blue");
+        Vehicle vehicle2 = new Vehicle(false,VehicleType.SMALL,"white");
+        Vehicle vehicle3 = new Vehicle(false,VehicleType.SMALL,"white");
+        parkingSystem.park(vehicle1);
+        parkingSystem.park(vehicle2);
+        parkingSystem.park(vehicle3);
+        parkingSystem.park(vehicle);
+        Map<Integer, Vehicle> details = parkingSystem.getDetails("blue","TOYOTO");
+        Assert.assertEquals("TOYOTO",details.get(2).getModel());
     }
 }
