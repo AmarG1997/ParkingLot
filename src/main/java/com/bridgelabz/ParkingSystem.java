@@ -8,7 +8,6 @@ import com.bridgelabz.service.ParkingStatusObserver;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -54,22 +53,22 @@ public class ParkingSystem {
         }
     }
 
-    public void carParking(Object vehicle) {
+    public void carParking(Vehicle vehicle) {
         int lots = this.NOOFPARKINGLOT + 1;
         if (count == lots) {
             changeSlot = changeSlot + 1;
             i = changeSlot;
             count = 1;
         }
-        vehicleData.put(i, (Vehicle) vehicle);
-        i = i + noOfLots;
-        count++;
+            vehicleData.putIfAbsent(i,vehicle);
+            i = i + noOfLots;
+            count++;
     }
 
     public void largeCarParking(Vehicle vehicle) {
-        for (int i=1;i<PARKINGLOTSIZE;i++){
-            if (vehicleData.get(i)==null && vehicleData.get(i+1) ==null && vehicleData.get(i-1)==null){
-                vehicleData.putIfAbsent(i,vehicle);
+        for (int i = 1; i < PARKINGLOTSIZE; i++) {
+            if (vehicleData.get(i) == null && vehicleData.get(i + 1) == null && vehicleData.get(i - 1) == null) {
+                vehicleData.putIfAbsent(i, vehicle);
                 break;
             }
         }
@@ -121,7 +120,7 @@ public class ParkingSystem {
     }
 
     public Map<Integer, Vehicle> getDetails(String... finDBY) {
-        Map<Integer, Vehicle> searchedVehicle ;
+        Map<Integer, Vehicle> searchedVehicle;
         searchedVehicle = vehicleData.entrySet().stream()
                 .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().contains(finDBY[0]))
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
@@ -135,10 +134,9 @@ public class ParkingSystem {
         return searchedVehicle;
     }
 
-    public void details(){
+    public void details() {
         System.out.println(vehicleData);
+        System.out.println("________________________");
     }
-
-
 }
 

@@ -25,6 +25,10 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
+        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(vehicleParked);
     }
@@ -95,12 +99,6 @@ public class ParkingLotTest {
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         int slotNo = parkingSystem.getSlotNo(vehicle);
         Assert.assertEquals(1, slotNo);
     }
@@ -114,8 +112,12 @@ public class ParkingLotTest {
     @Test
     public void givenALargeVehicle_whenParked_shoulReturnTrue() throws ParkingLotException {
         Vehicle vehicle1 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
+        Vehicle vehicle2 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
+        parkingSystem.details();
         parkingSystem.park(vehicle1);
+        parkingSystem.park(vehicle2);
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.details();
         Assert.assertEquals(3,parkingSystem.getSlotNo(vehicle1));
     }
 
