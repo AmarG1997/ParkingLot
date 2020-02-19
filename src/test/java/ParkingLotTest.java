@@ -143,4 +143,18 @@ public class ParkingLotTest {
         Map<Integer, Vehicle> details = parkingSystem.getDetails("blue","TOYOTO");
         Assert.assertEquals("TOYOTO",details.get(2).getModel());
     }
+
+    @Test
+    public void givenAVehicle_whenParkedVehicle_shouldReturnBMWCar() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle(false,VehicleType.SMALL,"ABC","mh-15-fe53410","blue","BMW");
+        Vehicle vehicle1 = new Vehicle(false,VehicleType.SMALL,"blue");
+        Vehicle vehicle2 = new Vehicle(false,VehicleType.SMALL,"white");
+        Vehicle vehicle3 = new Vehicle(false,VehicleType.SMALL,"white");
+        parkingSystem.park(vehicle1);
+        parkingSystem.park(vehicle2);
+        parkingSystem.park(vehicle3);
+        parkingSystem.park(vehicle);
+        Map<Integer, Vehicle> details = parkingSystem.getDetails("","BMW");
+        Assert.assertEquals("BMW",details.get(2).getModel());
+    }
 }

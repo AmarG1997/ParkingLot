@@ -120,8 +120,7 @@ public class ParkingSystem {
     public Map<Integer, Vehicle> getDetails(String... finDBY) {
         Map<Integer, Vehicle> a = new HashMap<>();
         a = vehicleData.entrySet().stream()
-                .filter(integerVehicleEntry -> integerVehicleEntry.getValue()
-                        .getColor() == finDBY[0])
+                .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().contains(finDBY[0]))
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
         if (finDBY.length > 1) {
             a = a.entrySet().stream()
