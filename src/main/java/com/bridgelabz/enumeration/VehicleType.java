@@ -1,4 +1,4 @@
-package com.bridgelabz.model;
+package com.bridgelabz.enumeration;
 
 public enum VehicleType {
 

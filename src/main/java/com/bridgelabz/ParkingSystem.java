@@ -1,5 +1,6 @@
-package com.bridgelabz.contoller;
+package com.bridgelabz;
 
+import com.bridgelabz.enumeration.DriverType;
 import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
@@ -34,10 +35,10 @@ public class ParkingSystem {
     }
 
     private void assignSlot(Vehicle vehicle) {
-        if (vehicle.handicap == false) {
+        if (vehicle.type.equals(DriverType.NORMAL)) {
             carParking(vehicle);
         }
-        if (vehicle.handicap == true) {
+        if (vehicle.type.equals(DriverType.HANDICAP)) {
             handicapCarParking(vehicle);
         }
     }
