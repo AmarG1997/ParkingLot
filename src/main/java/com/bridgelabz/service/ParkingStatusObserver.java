@@ -7,7 +7,7 @@ public class ParkingStatusObserver {
 
     private List<ParkingLotObserver> observers = new ArrayList<>();
 
-    public void attach(ParkingLotObserver o) {
+    public void add(ParkingLotObserver o) {
         observers.add(o);
     }
 

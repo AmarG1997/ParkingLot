@@ -1,6 +1,5 @@
 package com.bridgelabz;
 
-import com.bridgelabz.enumeration.DriverType;
 import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
@@ -9,6 +8,7 @@ import com.bridgelabz.service.ParkingStatusObserver;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,8 +34,8 @@ public class ParkingSystem {
         this.PARKINGLOTSIZE = PARKINGLOTSIZE;
         this.NOOFPARKINGLOT = NOOFPARKINGLOT;
         noOfLots = this.PARKINGLOTSIZE / this.NOOFPARKINGLOT;
-        parkingStatusObserver.attach(airportSecurity);
-        parkingStatusObserver.attach(owner);
+        parkingStatusObserver.add(airportSecurity);
+        parkingStatusObserver.add(owner);
     }
 
     public void handicapCarParking(Object vehicle) {
@@ -66,13 +66,21 @@ public class ParkingSystem {
         count++;
     }
 
+    public void largeCarParking(Vehicle vehicle) {
+        for (int i=1;i<PARKINGLOTSIZE;i++){
+            if (vehicleData.get(i)==null && vehicleData.get(i+1) ==null && vehicleData.get(i-1)==null){
+                vehicleData.putIfAbsent(i,vehicle);
+                break;
+            }
+        }
+    }
+
     public void park(Vehicle vehicleDetails) throws ParkingLotException {
         if (vehicleData.size() == PARKINGLOTSIZE) {
             parkingStatusObserver.notifyUpdate(true);
             throw new ParkingLotException("Parking Lot Is Full");
         }
         vehicleDetails.getType().carParking(this, vehicleDetails);
-        //assignSlot(vehicleDetails);
     }
 
     public boolean isVehicleParked(Vehicle vehicle) {
@@ -113,7 +121,7 @@ public class ParkingSystem {
     }
 
     public Map<Integer, Vehicle> getDetails(String... finDBY) {
-        Map<Integer, Vehicle> searchedVehicle = new HashMap<>();
+        Map<Integer, Vehicle> searchedVehicle ;
         searchedVehicle = vehicleData.entrySet().stream()
                 .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().contains(finDBY[0]))
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
@@ -126,5 +134,11 @@ public class ParkingSystem {
         }
         return searchedVehicle;
     }
+
+    public void details(){
+        System.out.println(vehicleData);
+    }
+
+
 }
 

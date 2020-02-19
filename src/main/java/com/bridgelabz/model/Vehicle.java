@@ -1,7 +1,6 @@
 package com.bridgelabz.model;
 
 import com.bridgelabz.enumeration.DriverType;
-import com.bridgelabz.enumeration.VehicleType;
 
 import java.time.LocalDateTime;
 
@@ -11,24 +10,20 @@ public class Vehicle {
     private String carNumber;
     private String name;
     private String color;
-    public VehicleType size;
     public DriverType type;
     LocalDateTime now = LocalDateTime.now();
 
-    public Vehicle(DriverType type, VehicleType size) {
+    public Vehicle(DriverType type) {
         this.type = type;
-        this.size = size;
     }
 
-    public Vehicle(DriverType type, VehicleType size, String color) {
+    public Vehicle(DriverType type, String color) {
         this.type = type;
-        this.size = size;
         this.color = color;
     }
 
-    public Vehicle(DriverType type, VehicleType size, String name, String carNumber, String color, String model) {
+    public Vehicle(DriverType type, String name, String carNumber, String color, String model) {
         this.type = type;
-        this.size = size;
         this.name = name;
         this.carNumber = carNumber;
         this.color = color;
@@ -58,7 +53,6 @@ public class Vehicle {
                 ", carNumber='" + carNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
-                ", size=" + size +
                 ", type=" + type +
                 ", time=" + now +
                 '}';
