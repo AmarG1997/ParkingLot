@@ -7,7 +7,6 @@ import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
 import com.bridgelabz.service.ParkingStatusObserver;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +20,9 @@ public class ParkingSystem {
 
     Map<Integer, Vehicle> vehicleData = new HashMap<>();
 
-    public int PARKINGLOTSIZE;
-    public int NOOFPARKINGLOT;
-    int noOfLots = 0;
+    public int PARKING_LOT_SIZE;
+    public int NO_OF_PARKING_LOT;
+    int noOfLots;
     int handicap = 1;
     int key = 0;
     int changeSlot = 1;
@@ -31,16 +30,16 @@ public class ParkingSystem {
     int i = 1;
     Vehicle parkedVehicle = null;
 
-    public ParkingSystem(int PARKINGLOTSIZE, int NOOFPARKINGLOT) {
-        this.PARKINGLOTSIZE = PARKINGLOTSIZE;
-        this.NOOFPARKINGLOT = NOOFPARKINGLOT;
-        noOfLots = this.PARKINGLOTSIZE / this.NOOFPARKINGLOT;
+    public ParkingSystem(int parkingLotSize, int noOfparkingLot) {
+        this.PARKING_LOT_SIZE = parkingLotSize;
+        this.NO_OF_PARKING_LOT = noOfparkingLot;
+        noOfLots = this.PARKING_LOT_SIZE / this.NO_OF_PARKING_LOT;
         parkingStatusObserver.add(airportSecurity);
         parkingStatusObserver.add(owner);
     }
 
     public void handicapCarParking(Object vehicle) {
-        for (int slot = handicap; slot < PARKINGLOTSIZE; slot++) {
+        for (int slot = handicap; slot < PARKING_LOT_SIZE; slot++) {
             if (vehicleData.containsKey(slot)) {
                 parkedVehicle = vehicleData.get(slot);
                 vehicleData.put(slot, (Vehicle) vehicle);
@@ -56,7 +55,7 @@ public class ParkingSystem {
     }
 
     public void carParking(Vehicle vehicle) {
-        int lots = this.NOOFPARKINGLOT + 1;
+        int lots = this.NO_OF_PARKING_LOT + 1;
         if (count == lots) {
             changeSlot = changeSlot + 1;
             i = changeSlot;
@@ -68,7 +67,7 @@ public class ParkingSystem {
     }
 
     public void largeCarParking(Vehicle vehicle) {
-        for (int i = 1; i < PARKINGLOTSIZE; i++) {
+        for (int i = 1; i < PARKING_LOT_SIZE; i++) {
             if (vehicleData.get(i) == null && vehicleData.get(i + 1) == null && vehicleData.get(i - 1) == null) {
                 vehicleData.putIfAbsent(i, vehicle);
                 break;
@@ -77,7 +76,7 @@ public class ParkingSystem {
     }
 
     public void park(Vehicle vehicleDetails) throws ParkingLotException {
-        if (vehicleData.size() == PARKINGLOTSIZE) {
+        if (vehicleData.size() == PARKING_LOT_SIZE) {
             parkingStatusObserver.notifyUpdate(true);
             throw new ParkingLotException("Parking Lot Is Full");
         }
@@ -85,7 +84,7 @@ public class ParkingSystem {
     }
 
     public boolean isVehicleParked(Vehicle vehicle) {
-        for (int i = 1; i <= PARKINGLOTSIZE; i++) {
+        for (int i = 1; i <= PARKING_LOT_SIZE; i++) {
             if (vehicleData.get(i) == vehicle) {
                 return true;
             }
@@ -113,7 +112,7 @@ public class ParkingSystem {
             LocalDateTime parkTime = vehicleData.get(key).getTimeAndDate();
             owner.parkTimeData(parkTime);
             vehicleData.remove(key);
-            if (vehicleData.size() < PARKINGLOTSIZE) {
+            if (vehicleData.size() < PARKING_LOT_SIZE) {
                 parkingStatusObserver.notifyUpdate(false);
             }
             return true;
