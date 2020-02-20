@@ -164,5 +164,9 @@ public class ParkingSystem {
         })
         .count();
     }
+
+    public Map<Integer,Vehicle> getAllVehicleDetails(){
+        return vehicleData;
+    }
 }
 

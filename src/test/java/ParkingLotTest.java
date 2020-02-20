@@ -186,4 +186,15 @@ public class ParkingLotTest {
         Map<Integer, Vehicle> lotData = parkingSystem.getLotData(1,DriverType.HANDICAP_DRIVER);
         Assert.assertEquals(1,lotData.size());
     }
+
+    @Test
+    public void givenAVehicle_whenParked_shouldReturnAllVehicles() throws ParkingLotException {
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        Map<Integer, Vehicle> allVehicleDetails = parkingSystem.getAllVehicleDetails();
+        Assert.assertEquals(6,allVehicleDetails.size());
+    }
 }
