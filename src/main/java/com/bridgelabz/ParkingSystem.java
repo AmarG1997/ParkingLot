@@ -20,8 +20,8 @@ public class ParkingSystem {
 
     Map<Integer, Vehicle> vehicleData = new HashMap<>();
 
-    public int PARKING_LOT_SIZE;
-    public int NO_OF_PARKING_LOT;
+    public final int PARKING_LOT_SIZE;
+    public final int NO_OF_PARKING_LOT;
     int noOfLots;
     int handicap = 1;
     int key = 0;
@@ -44,7 +44,7 @@ public class ParkingSystem {
                 parkedVehicle = vehicleData.get(slot);
                 vehicleData.put(slot, (Vehicle) vehicle);
                 handicap = handicap + 1;
-                parkedVehicle.getType().carParking(this, parkedVehicle);
+                parkedVehicle.type.carParking(this, parkedVehicle);
                 break;
             } else {
                 vehicleData.put(slot, (Vehicle) vehicle);
@@ -61,9 +61,9 @@ public class ParkingSystem {
             i = changeSlot;
             count = 1;
         }
-            vehicleData.putIfAbsent(i, vehicle);
-            i = i + noOfLots;
-            count++;
+        vehicleData.putIfAbsent(i, vehicle);
+        i = i + noOfLots;
+        count++;
     }
 
     public void largeCarParking(Vehicle vehicle) {
@@ -80,7 +80,7 @@ public class ParkingSystem {
             parkingStatusObserver.notifyUpdate(true);
             throw new ParkingLotException("Parking Lot Is Full");
         }
-        vehicleDetails.getType().carParking(this, vehicleDetails);
+        vehicleDetails.type.carParking(this, vehicleDetails);
     }
 
     public boolean isVehicleParked(Vehicle vehicle) {
@@ -128,17 +128,17 @@ public class ParkingSystem {
         if (finDBY.length > 1) {
             searchedVehicle = searchedVehicle.entrySet().stream()
                     .filter(integerVehicleEntry -> integerVehicleEntry.getValue()
-                            .getModel() == finDBY[1])
+                            .model == finDBY[1])
                     .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
             return searchedVehicle;
         }
         return searchedVehicle;
     }
 
-    public Map<Integer,Vehicle> getLast30MinuteParkedVehicles(){
-        Map<Integer,Vehicle>vehicleBefore;
-        vehicleBefore=vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue().getTimeAndDate()
-        .isAfter(LocalDateTime.now().minusMinutes(30))).collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+    public Map<Integer, Vehicle> getLast30MinuteParkedVehicles() {
+        Map<Integer, Vehicle> vehicleBefore;
+        vehicleBefore = vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue().getTimeAndDate()
+                .isAfter(LocalDateTime.now().minusMinutes(30))).collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
         return vehicleBefore;
     }
 }

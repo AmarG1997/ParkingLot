@@ -7,25 +7,23 @@ import java.time.LocalDateTime;
 
 public class Vehicle {
 
-    private VehicleDetails color;
-    private VehicleDetails model;
-    private String carNumber;
-    private String name;
-
+    public VehicleDetails size;
+    public VehicleDetails color;
+    public VehicleDetails model;
+    public String carNumber;
+    public String name;
     public DriverType type;
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime time = LocalDateTime.now();
 
-    public Vehicle(DriverType type) {
-        this.type = type;
-    }
-
-    public Vehicle(DriverType type, VehicleDetails color) {
+    public Vehicle(DriverType type, VehicleDetails color, VehicleDetails size) {
         this.type = type;
         this.color = color;
+        this.size = size;
     }
 
-    public Vehicle(DriverType type, String name, String carNumber, VehicleDetails color, VehicleDetails model) {
+    public Vehicle(DriverType type, VehicleDetails size, String name, String carNumber, VehicleDetails color, VehicleDetails model) {
         this.type = type;
+        this.size = size;
         this.name = name;
         this.carNumber = carNumber;
         this.color = color;
@@ -33,30 +31,19 @@ public class Vehicle {
     }
 
     public LocalDateTime getTimeAndDate() {
-        return now;
-    }
-
-    public VehicleDetails getColor() {
-        return color;
-    }
-
-    public VehicleDetails getModel() {
-        return model;
-    }
-
-    public DriverType getType() {
-        return type;
+        return time;
     }
 
     @Override
     public String toString() {
         return "Vehicle{" +
-                "model='" + model + '\'' +
+                "size=" + size +
+                ", color=" + color +
+                ", model=" + model +
                 ", carNumber='" + carNumber + '\'' +
                 ", name='" + name + '\'' +
-                ", color='" + color + '\'' +
                 ", type=" + type +
-                ", time=" + now +
+                ", time=" + time +
                 '}';
     }
 }

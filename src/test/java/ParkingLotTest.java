@@ -19,18 +19,18 @@ public class ParkingLotTest {
 
     @Before
     public void setUp() throws Exception {
-        vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER);
+        vehicle = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
         parkingSystem = new ParkingSystem(100, 4);
         parkingSystem.park(vehicle);
     }
 
     @Test
     public void givenAVehicle_whenParked_shouldReturnTrue() throws ParkingLotException {
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(vehicleParked);
     }
@@ -43,17 +43,17 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenUnParkedAnotherVariable_shouldReturnFalse() throws ParkingLotException {
-        boolean isUnParked = parkingSystem.unPark(new Vehicle(DriverType.HANDICAP));
+        boolean isUnParked = parkingSystem.unPark(new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         Assert.assertFalse(isUnParked);
     }
 
     @Test
     public void givenAVehicle_whenParkingLotIsFull_shouldReturnFull() throws ParkingLotException {
         for (int i = 0; i < parkingSystem.PARKING_LOT_SIZE - 1; i++) {
-            parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+            parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         }
         try {
-            parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+            parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         } catch (ParkingLotException e) {
             Assert.assertEquals("Parking Lot Is Full", e.getMessage());
         }
@@ -63,7 +63,7 @@ public class ParkingLotTest {
     public void givenAVehicle_whenParkingLotIsFull_shouldInformAirportSecurity() {
         try {
             for (int i = 0; i < parkingSystem.PARKING_LOT_SIZE; i++)
-                parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+                parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         } catch (ParkingLotException e) {
         }
         Assert.assertTrue(AirportSecurity.status);
@@ -71,9 +71,9 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkingLotIsFullAndToggleBack_shouldInformAirportSecurity() throws ParkingLotException {
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         try {
-            parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+            parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         } catch (ParkingLotException e) {
         }
         parkingSystem.unPark(vehicle);
@@ -82,7 +82,7 @@ public class ParkingLotTest {
 
     @Test
     public void whenEnterDetails_shouldReturnParkingLotNumber() throws ParkingLotException {
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER);
+        Vehicle vehicle1 = (new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         parkingSystem.park(vehicle1);
         int slotNo = parkingSystem.getSlotNo(vehicle);
         Assert.assertEquals(1, slotNo);
@@ -90,7 +90,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenVehicle_whenUnparked_shouldReturnParkedTime() throws ParkingLotException {
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         parkingSystem.unPark(vehicle);
         Object details = owner.getDetails();
         Assert.assertEquals(vehicle.getTimeAndDate(), details);
@@ -98,45 +98,45 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParked_shouldParkedEvenly() throws ParkingLotException {
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         int slotNo = parkingSystem.getSlotNo(vehicle);
         Assert.assertEquals(1, slotNo);
     }
 
     @Test
     public void givenAVehicle_whenDriverIsHandicap_shouldParkedInNeighbourSlot() throws ParkingLotException {
-        parkingSystem.park(new Vehicle(DriverType.HANDICAP));
+        parkingSystem.park(new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         Assert.assertEquals(26, parkingSystem.getSlotNo(vehicle));
     }
 
     @Test
     public void givenALargeVehicle_whenParked_shoulReturnTrue() throws ParkingLotException {
-        Vehicle vehicle1 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
-        Vehicle vehicle2 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
+        Vehicle vehicle1 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
+        Vehicle vehicle2 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.LARGE);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
-        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        Assert.assertEquals(3,parkingSystem.getSlotNo(vehicle1));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        Assert.assertEquals(3, parkingSystem.getSlotNo(vehicle2));
     }
 
     @Test
     public void givenAVehicle_whenParkedVehicles_shouldReturnWhiteCars() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle = (new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        Vehicle vehicle1 = (new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
         parkingSystem.park(vehicle);
         parkingSystem.park(vehicle1);
         Map<Integer, Vehicle> vehicleList = parkingSystem.getDetails(VehicleDetails.WHITE);
-        Assert.assertEquals(2, vehicleList.size());
+        Assert.assertEquals(3, vehicleList.size());
     }
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturnBlueCarWithToyotoModel() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "ABC", "mh-15-fe53410", VehicleDetails.WHITE, VehicleDetails.TOYOTO);
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
+        Vehicle vehicle = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.SMALL, "ABC", "mh-15-fe53410", VehicleDetails.WHITE, VehicleDetails.TOYOTO);
+        Vehicle vehicle1 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
+        Vehicle vehicle2 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
+        Vehicle vehicle3 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);
@@ -147,11 +147,11 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturnBMWCar() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
-        Vehicle vehicle4 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.BLUE);
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.SMALL, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle4 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.SMALL, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle1 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.BLUE, VehicleDetails.SMALL);
+        Vehicle vehicle2 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
+        Vehicle vehicle3 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);
@@ -163,10 +163,10 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturn30minBeforeParkedVehicle() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.BLUE);
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.SMALL, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle1 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.BLUE, VehicleDetails.SMALL);
+        Vehicle vehicle2 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
+        Vehicle vehicle3 = new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);

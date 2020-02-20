@@ -4,20 +4,19 @@ import com.bridgelabz.ParkingSystem;
 import com.bridgelabz.model.Vehicle;
 
 public enum DriverType {
-    SMALL_VEHICLE_DRIVER {
+    NORMAL_DRIVER {
         @Override
         public void carParking(ParkingSystem parkingSystem, Vehicle vehicle) {
-            parkingSystem.carParking(vehicle);
+            if (vehicle.size.toString().contains("SMALL")) {
+                parkingSystem.carParking(vehicle);
+            } else {
+                parkingSystem.largeCarParking(vehicle);
+            }
         }
-    }, HANDICAP {
+    }, HANDICAP_DRIVER {
         @Override
         public void carParking(ParkingSystem parkingSystem, Vehicle vehicle) {
             parkingSystem.handicapCarParking(vehicle);
-        }
-    }, LARGE_VEHICLE_DRIVER {
-        @Override
-        public void carParking(ParkingSystem parkingSystem, Vehicle vehicle) {
-            parkingSystem.largeCarParking(vehicle);
         }
     };
 
