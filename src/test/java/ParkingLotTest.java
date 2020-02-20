@@ -1,5 +1,6 @@
 import com.bridgelabz.ParkingSystem;
 import com.bridgelabz.enumeration.DriverType;
+import com.bridgelabz.enumeration.VehicleDetails;
 import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
@@ -122,48 +123,50 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenParkedVehicles_shouldReturnWhiteCars() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
+        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
         parkingSystem.park(vehicle);
         parkingSystem.park(vehicle1);
-        Map<Integer, Vehicle> vehicleList = parkingSystem.getDetails("white");
-        Assert.assertEquals("white", vehicleList.get(51).getColor());
+        Map<Integer, Vehicle> vehicleList = parkingSystem.getDetails(VehicleDetails.WHITE);
+        Assert.assertEquals(2, vehicleList.size());
     }
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturnBlueCarWithToyotoModel() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "ABC", "mh-15-fe53410", "blue", "TOYOTO");
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "blue");
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "white");
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "white");
+        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  "ABC", "mh-15-fe53410", VehicleDetails.WHITE, VehicleDetails.TOYOTO);
+        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
+        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
+        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER,  VehicleDetails.WHITE);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);
         parkingSystem.park(vehicle);
-        Map<Integer, Vehicle> details = parkingSystem.getDetails("blue", "TOYOTO");
-        Assert.assertEquals("TOYOTO", details.get(2).getModel());
+        Map<Integer, Vehicle> details = parkingSystem.getDetails(VehicleDetails.WHITE, VehicleDetails.TOYOTO);
+        Assert.assertEquals(1, details.size());
     }
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturnBMWCar() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", "blue", "BMW");
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "blue");
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
+        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle4 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.BLUE);
+        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);
         parkingSystem.park(vehicle);
-        Map<Integer, Vehicle> details = parkingSystem.getDetails("BMW");
-        Assert.assertEquals("BMW", details.get(2).getModel());
+        parkingSystem.park(vehicle4);
+        Map<Integer, Vehicle> details = parkingSystem.getDetails(VehicleDetails.BMW);
+        Assert.assertEquals(2, details.size());
     }
 
     @Test
     public void givenAVehicle_whenParkedVehicle_shouldReturn30minBeforeParkedVehicle() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", "blue", "BMW");
-        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "blue");
-        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
-        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
+        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.BLUE);
+        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
+        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, VehicleDetails.WHITE);
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(vehicle3);

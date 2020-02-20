@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import com.bridgelabz.enumeration.VehicleDetails;
 import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
 import com.bridgelabz.service.ParkingLotException;
@@ -120,10 +121,10 @@ public class ParkingSystem {
         return false;
     }
 
-    public Map<Integer, Vehicle> getDetails(String... finDBY) {
+    public Map<Integer, Vehicle> getDetails(VehicleDetails... finDBY) {
         Map<Integer, Vehicle> searchedVehicle;
         searchedVehicle = vehicleData.entrySet().stream()
-                .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().contains(finDBY[0]))
+                .filter(integerVehicleEntry -> integerVehicleEntry.getValue().toString().toLowerCase().contains(finDBY[0].toString().toLowerCase()))
                 .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
         if (finDBY.length > 1) {
             searchedVehicle = searchedVehicle.entrySet().stream()

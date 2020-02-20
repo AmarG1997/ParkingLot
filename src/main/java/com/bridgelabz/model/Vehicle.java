@@ -1,15 +1,17 @@
 package com.bridgelabz.model;
 
 import com.bridgelabz.enumeration.DriverType;
+import com.bridgelabz.enumeration.VehicleDetails;
 
 import java.time.LocalDateTime;
 
 public class Vehicle {
 
-    private String model;
+    private VehicleDetails color;
+    private VehicleDetails model;
     private String carNumber;
     private String name;
-    private String color;
+
     public DriverType type;
     LocalDateTime now = LocalDateTime.now();
 
@@ -17,12 +19,12 @@ public class Vehicle {
         this.type = type;
     }
 
-    public Vehicle(DriverType type, String color) {
+    public Vehicle(DriverType type, VehicleDetails color) {
         this.type = type;
         this.color = color;
     }
 
-    public Vehicle(DriverType type, String name, String carNumber, String color, String model) {
+    public Vehicle(DriverType type, String name, String carNumber, VehicleDetails color, VehicleDetails model) {
         this.type = type;
         this.name = name;
         this.carNumber = carNumber;
@@ -34,11 +36,11 @@ public class Vehicle {
         return now;
     }
 
-    public String getColor() {
+    public VehicleDetails getColor() {
         return color;
     }
 
-    public String getModel() {
+    public VehicleDetails getModel() {
         return model;
     }
 
