@@ -107,8 +107,12 @@ public class ParkingLotTest {
 
     @Test
     public void givenAVehicle_whenDriverIsHandicap_shouldParkedInNeighbourSlot() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL);
         parkingSystem.park(new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
-        Assert.assertEquals(26, parkingSystem.getSlotNo(vehicle));
+        parkingSystem.park(new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(new Vehicle(DriverType.NORMAL_DRIVER, VehicleDetails.WHITE, VehicleDetails.SMALL));
+        parkingSystem.park(vehicle);
+        Assert.assertEquals(4, parkingSystem.getSlotNo(vehicle));
     }
 
     @Test
@@ -173,5 +177,13 @@ public class ParkingLotTest {
         parkingSystem.park(vehicle);
         Map<Integer, Vehicle> details = parkingSystem.getLast30MinuteParkedVehicles();
         Assert.assertEquals(5, details.size());
+    }
+
+    @Test
+    public void givenAVehicles_whenParkedVehicles_shouldReturnBOrDLot() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle(DriverType.HANDICAP_DRIVER, VehicleDetails.SMALL, "ABC", "mh-15-fe53410", VehicleDetails.BLUE, VehicleDetails.BMW);
+        parkingSystem.park(vehicle1);
+        Map<Integer, Vehicle> lotData = parkingSystem.getLotData(1,DriverType.HANDICAP_DRIVER);
+        Assert.assertEquals(1,lotData.size());
     }
 }

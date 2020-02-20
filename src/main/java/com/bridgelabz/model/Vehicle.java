@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class Vehicle {
 
+    public Integer lot;
     public VehicleDetails size;
     public VehicleDetails color;
     public VehicleDetails model;
@@ -36,8 +37,9 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "size=" + size +
+        return
+                "lot='" + lot + '\'' +
+                ", size=" + size +
                 ", color=" + color +
                 ", model=" + model +
                 ", carNumber='" + carNumber + '\'' +

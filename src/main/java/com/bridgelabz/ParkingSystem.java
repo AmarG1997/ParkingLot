@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import com.bridgelabz.enumeration.DriverType;
 import com.bridgelabz.enumeration.VehicleDetails;
 import com.bridgelabz.model.Vehicle;
 import com.bridgelabz.service.AirportSecurity;
@@ -23,12 +24,10 @@ public class ParkingSystem {
     public final int PARKING_LOT_SIZE;
     public final int NO_OF_PARKING_LOT;
     int noOfLots;
-    int handicap = 1;
     int key = 0;
     int changeSlot = 1;
     int count = 1;
     int i = 1;
-    Vehicle parkedVehicle = null;
 
     public ParkingSystem(int parkingLotSize, int noOfparkingLot) {
         this.PARKING_LOT_SIZE = parkingLotSize;
@@ -38,19 +37,14 @@ public class ParkingSystem {
         parkingStatusObserver.add(owner);
     }
 
-    public void handicapCarParking(Object vehicle) {
-        for (int slot = handicap; slot < PARKING_LOT_SIZE; slot++) {
-            if (vehicleData.containsKey(slot)) {
-                parkedVehicle = vehicleData.get(slot);
-                vehicleData.put(slot, (Vehicle) vehicle);
-                handicap = handicap + 1;
-                parkedVehicle.type.carParking(this, parkedVehicle);
-                break;
-            } else {
-                vehicleData.put(slot, (Vehicle) vehicle);
-                handicap = handicap + 1;
+    public void handicapCarParking(Vehicle vehicle) {
+        for (int i=1;i<PARKING_LOT_SIZE;i++){
+            if (vehicleData.get(i)==null){
+                vehicleData.put(i,vehicle);
+                assignLot(vehicle);
                 break;
             }
+
         }
     }
 
@@ -62,6 +56,7 @@ public class ParkingSystem {
             count = 1;
         }
         vehicleData.putIfAbsent(i, vehicle);
+        assignLot(vehicle);
         i = i + noOfLots;
         count++;
     }
@@ -70,6 +65,7 @@ public class ParkingSystem {
         for (int i = 1; i < PARKING_LOT_SIZE; i++) {
             if (vehicleData.get(i) == null && vehicleData.get(i + 1) == null && vehicleData.get(i - 1) == null) {
                 vehicleData.putIfAbsent(i, vehicle);
+                assignLot(vehicle);
                 break;
             }
         }
@@ -135,11 +131,38 @@ public class ParkingSystem {
         return searchedVehicle;
     }
 
+    public Map<Integer, Vehicle> getLotData(int lotNumber, DriverType handicapDriver){
+        Map<Integer, Vehicle> lotData;
+        lotData=vehicleData.entrySet().stream()
+                .filter(integerVehicleEntry -> integerVehicleEntry.getValue().lot==lotNumber)
+                .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+        lotData=lotData.entrySet().stream()
+                .filter(data->data.getValue().type==handicapDriver)
+                .collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+        return lotData;
+    }
+
     public Map<Integer, Vehicle> getLast30MinuteParkedVehicles() {
         Map<Integer, Vehicle> vehicleBefore;
         vehicleBefore = vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue().getTimeAndDate()
                 .isAfter(LocalDateTime.now().minusMinutes(30))).collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
         return vehicleBefore;
+    }
+
+    private void assignLot(Vehicle vehicle){
+        vehicleData.entrySet()
+        .stream()
+        .filter(data-> (data.getValue() == vehicle))
+        .map(values -> {
+            for (int j=1;j<NO_OF_PARKING_LOT;j++){
+                if (values.getKey() <= j*(PARKING_LOT_SIZE/NO_OF_PARKING_LOT)){
+                    vehicle.lot = j;
+                    break;
+                }
+            }
+            return false;
+        })
+        .count();
     }
 }
 
