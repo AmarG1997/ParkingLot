@@ -6,6 +6,7 @@ import com.bridgelabz.service.ParkingLotException;
 import com.bridgelabz.service.ParkingLotOwner;
 import com.bridgelabz.service.ParkingStatusObserver;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class ParkingSystem {
             i = changeSlot;
             count = 1;
         }
-            vehicleData.putIfAbsent(i,vehicle);
+            vehicleData.putIfAbsent(i, vehicle);
             i = i + noOfLots;
             count++;
     }
@@ -134,9 +135,11 @@ public class ParkingSystem {
         return searchedVehicle;
     }
 
-    public void details() {
-        System.out.println(vehicleData);
-        System.out.println("________________________");
+    public Map<Integer,Vehicle> getLast30MinuteParkedVehicles(){
+        Map<Integer,Vehicle>vehicleBefore;
+        vehicleBefore=vehicleData.entrySet().stream().filter(integerVehicleEntry -> integerVehicleEntry.getValue().getTimeAndDate()
+        .isAfter(LocalDateTime.now().minusMinutes(30))).collect(Collectors.toMap(o -> o.getKey(), o -> o.getValue()));
+        return vehicleBefore;
     }
 }
 

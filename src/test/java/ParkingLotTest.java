@@ -29,6 +29,7 @@ public class ParkingLotTest {
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
+        parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
         boolean vehicleParked = parkingSystem.isVehicleParked(vehicle);
         Assert.assertTrue(vehicleParked);
     }
@@ -113,11 +114,9 @@ public class ParkingLotTest {
     public void givenALargeVehicle_whenParked_shoulReturnTrue() throws ParkingLotException {
         Vehicle vehicle1 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
         Vehicle vehicle2 = new Vehicle(DriverType.LARGE_VEHICLE_DRIVER);
-        parkingSystem.details();
         parkingSystem.park(vehicle1);
         parkingSystem.park(vehicle2);
         parkingSystem.park(new Vehicle(DriverType.SMALL_VEHICLE_DRIVER));
-        parkingSystem.details();
         Assert.assertEquals(3,parkingSystem.getSlotNo(vehicle1));
     }
 
@@ -157,5 +156,19 @@ public class ParkingLotTest {
         parkingSystem.park(vehicle);
         Map<Integer, Vehicle> details = parkingSystem.getDetails("BMW");
         Assert.assertEquals("BMW", details.get(2).getModel());
+    }
+
+    @Test
+    public void givenAVehicle_whenParkedVehicle_shouldReturn30minBeforeParkedVehicle() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "ABC", "mh-15-fe53410", "blue", "BMW");
+        Vehicle vehicle1 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "blue");
+        Vehicle vehicle2 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
+        Vehicle vehicle3 = new Vehicle(DriverType.SMALL_VEHICLE_DRIVER, "white");
+        parkingSystem.park(vehicle1);
+        parkingSystem.park(vehicle2);
+        parkingSystem.park(vehicle3);
+        parkingSystem.park(vehicle);
+        Map<Integer, Vehicle> details = parkingSystem.getLast30MinuteParkedVehicles();
+        Assert.assertEquals(5, details.size());
     }
 }
